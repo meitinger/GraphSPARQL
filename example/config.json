@@ -1,0 +1,55 @@
+{
+  "DataSources": [
+    {
+      "Name": "DBpedia",
+      "Provider": "remote",
+      "Prefixes": {
+        "dbo": "http://dbpedia.org/ontology/",
+        "dbp": "http://dbpedia.org/property/",
+        "dbr": "http://dbpedia.org/resource/"
+      },
+      "Settings": {
+        "EndpointUri": "http://dbpedia.org/sparql/"
+      }
+    }
+  ],
+  "Definitions": [
+    {
+      "Provider": "inline",
+      "Settings": {
+        "Schema": {
+          "Interfaces": [
+            {
+              "Name": "IAny",
+              "Fields": [
+                {
+                  "Name": "label",
+                  "Predicate": "http://www.w3.org/2000/01/rdf-schema#label",
+                  "IsArray": true,
+                  "Scalar": "LanguageString"
+                },
+                {
+                  "Name": "seeAlso",
+                  "Predicate": "http://www.w3.org/2000/01/rdf-schema#seeAlso",
+                  "IsArray": true,
+                  "Object": "IAny"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Provider": "rdf",
+      "Settings": {
+        "Location": "dbpedia.owl",
+        "Namespaces": [
+          {
+            "Uri": "http://dbpedia.org/ontology/"
+          }
+        ]
+      }
+    }
+  ]
+}
