@@ -1,21 +1,22 @@
 ﻿GraphSPARQL
 ===========
 
-_GraphSPARQL_ is a library that allows you to run a _GraphQL_ query like
+_GraphSPARQL_ is a library that allows you to run a _GraphQL_ queries like
 ```graphql
 query {
-  scientist(filter: "?label='Albert Einstein'@en") {
-    spouse(filter: "?label='Mileva Marić'@en") {
-      child(filter: "?height > 1.7") {
-        label(filter: "lang(?_)='en'")
-        height
+  scientist (id: "http://dbpedia.org/resource/Albert_Einstein") {
+    spouse (filter: "bound(?child_label) && regex(?child_label,'^Lieserl')") {
+      label (filter: "lang(?_)='en'")
+      birthDate
+      child (limit: 2) {
+        _id
       }
     }
   }
 }
 ```
-against one or more _SPARQL_ endpoints like
-[DBpedia](https://dbpedia.org/sparql) returning _JSON_
+against one or more _SPARQL_ endpoints (e.g.
+[DBpedia](https://dbpedia.org/sparql)) returning the following _JSON_
 ```json
 {
   "data": {
@@ -23,18 +24,11 @@ against one or more _SPARQL_ endpoints like
       {
         "spouse": [
           {
+            "label": [{ "value": "Mileva Marić", "language": "en" }],
+            "birthDate": [{ "year": 1875, "month": 12, "day": 19, "kind": 0 }],
             "child": [
-              {
-                "label": [
-                  {
-                    "value": "Hans Albert Einstein",
-                    "language": "en"
-                  }
-                ],
-                "height": [
-                  1.7272
-                ]
-              }
+              { "_id": "http://dbpedia.org/resource/Hans_Albert_Einstein" },
+              { "_id": "http://dbpedia.org/resource/Lieserl_Einstein" }
             ]
           }
         ]
@@ -43,23 +37,23 @@ against one or more _SPARQL_ endpoints like
   }
 }
 ```
-without knowing almost any _SPARQL_ (except for filtering).
+without having to know almost any _SPARQL_ (except for filtering).
 
 It supports harvesting schemas from _RDF(S)_, _OWL_, _GraphQL_ and _JSON_.
 Each field can belong to a different SPARQL endpoint, even a different named
-graph within that endpoint.
+graph within that endpoint. In other words, it fully supports _linked data_.
 
-It also support _SPARQL_ updates through _GraphQL_ mutations.
-For example to update the height from the example above you could run
+There is also support for _SPARQL_ updates through _GraphQL_ mutations.
+For example, the following mutation (falsely) attributes another child to
+Einstein:
 ```graphql
 mutation {
-  updateScientist(filter: "?label='Albert Einstein'@en") {
-    spouse(filter: "?label='Mileva Marić'@en") {
-      child(filter: "?height > 1.7") {
-        label(filter: "lang(?_)='en'")
-        height(set: 1.73)
-      }
-    }
+  createPerson (id: "http://fakepedia.com/Ente_Einstein", template: {
+    label: ["'Ente Einstein'@de", "'Canard Einstein'@en"]
+    birthDate: { year: 1900, month: 2, day: 8 }
+  }) {_id}
+  updateScientist (filter: "?label='Albert Einstein'@en") {
+    child (add: "http://fakepedia.com/Ente_Einstein") {_id}
   }
 }
 ```

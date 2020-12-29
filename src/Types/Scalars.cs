@@ -545,7 +545,7 @@ namespace UIBK.GraphSPARQL.Types
 
         internal override object? FromSparQL(VDS.RDF.INode value) => value is VDS.RDF.IUriNode node ? node.Uri : null;
 
-        internal override VDS.RDF.INode? ToSparQL(object value, VDS.RDF.INodeFactory factory) => value is Uri uri ? factory.CreateUriNode(uri) : null;
+        internal override VDS.RDF.INode? ToSparQL(object value, VDS.RDF.INodeFactory factory) => factory.CreateUriNode(ValueConverter.ConvertTo<Uri>(value));
 
         internal override object? FromGraphQL(IValue value) => throw new NotImplementedException();
     }
