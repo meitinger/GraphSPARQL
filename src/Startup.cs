@@ -46,7 +46,7 @@ namespace UIBK.GraphSPARQL
             services
                 .AddSingleton<IDataSourceContextAccessor, DataSourceContextAccessor>()
                 .AddSingleton<IDocumentExecutionListener, DataSourceDocumentListener>()
-                .AddSingleton(serviceProvider => new Schema(serviceProvider).Configure(@".\example\config.json"))
+                .AddSingleton(serviceProvider => new Schema(serviceProvider).Configure(System.IO.Path.Combine(".", "example", "config.json")))
                 .AddGraphQL((options, provider) =>
                 {
                     options.EnableMetrics = Environment.IsDevelopment();
