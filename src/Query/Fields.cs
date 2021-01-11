@@ -131,7 +131,7 @@ namespace UIBK.GraphSPARQL.Query
 
         protected override QueryArguments BuildArguments() => _argumentsCache.GetOrAdd(Tuple.Create(Field.MutationScalar, Field.IsArray, Capabilities), template => BuildArguments(template.Item1, template.Item2, template.Item3));
 
-        private VDS.RDF.INode CreateNode(object obj) => Field.MutationScalar.ToSparQL(obj, NodeFactory) ?? throw new ExecutionError($"Failed to convert value '{obj}' of type {obj.GetType().Name} to {Field.MutationScalar}.");
+        private VDS.RDF.INode CreateNode(object obj) => Field.MutationScalar.ToSparql(obj, NodeFactory) ?? throw new ExecutionError($"Failed to convert value '{obj}' of type {obj.GetType().Name} to {Field.MutationScalar}.");
 
         private ISet<VDS.RDF.INode> NodesFromArgument(IResolveFieldContext request, string name) => request.GetArgument(name, Enumerable.Empty<object>()).Select(CreateNode).ToHashSet();
 
@@ -356,7 +356,7 @@ namespace UIBK.GraphSPARQL.Query
         protected override SchemaContainer? Container => null;
 
         protected override object Resolve(IResolveFieldContext<Instance?> request, VDS.RDF.INode node, IEnumerable<Iri> _) =>
-            Field.Scalar.FromSparQL(node) ?? throw new ExecutionError($"Failed to convert from node {node} to {Field}.");
+            Field.Scalar.FromSparql(node) ?? throw new ExecutionError($"Failed to convert from node {node} to {Field}.");
     }
 
     internal sealed class MutationField : BaseFieldType
@@ -365,7 +365,7 @@ namespace UIBK.GraphSPARQL.Query
 
         protected override QueryArguments? BuildArguments() => null;
 
-        private void InsertData(Iri subject, object value) => Context.InsertData(subject, Predicate, Field.MutationScalar.ToSparQL(value, NodeFactory) ?? throw new ExecutionError($"Failed to convert from value '{value}' to {Field}."));
+        private void InsertData(Iri subject, object value) => Context.InsertData(subject, Predicate, Field.MutationScalar.ToSparql(value, NodeFactory) ?? throw new ExecutionError($"Failed to convert from value '{value}' to {Field}."));
 
         public void PersistValue(Iri subject, object value)
         {
