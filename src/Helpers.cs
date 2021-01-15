@@ -63,8 +63,17 @@ namespace UIBK.GraphSPARQL
             /// <inheritdoc/>
             public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
             {
-                if (value is Iri iri) writer.WriteValue(iri.ToString());
-                else writer.WriteNull();
+                switch (value)
+                {
+                    case Iri iri:
+                        writer.WriteValue(iri.ToString());
+                        break;
+                    case null:
+                        writer.WriteNull();
+                        break;
+                    default:
+                        throw new JsonSerializationException($"Invalid value type {value.GetType().Name}, expected {nameof(Iri)}.");
+                }
             }
         }
 
@@ -170,6 +179,13 @@ namespace UIBK.GraphSPARQL
         public static implicit operator PatternItem(Iri iri) => new NodeMatchPattern(iri.Node);
     }
 
+    internal sealed class GraphUri : Uri
+    {
+        public GraphUri(Uri uri) : base(string.IsNullOrEmpty(uri.OriginalString) ? uri.AbsoluteUri : uri.OriginalString) { }
+
+        public override string ToString() => OriginalString;
+    }
+
     internal delegate Exception ExceptionBuilder(string s);
 
     internal static class Extensions
@@ -179,7 +195,7 @@ namespace UIBK.GraphSPARQL
         public static IGraphPatternBuilder GraphIf(this IGraphPatternBuilder builder, Uri? graphUri, Action<IGraphPatternBuilder> buildGraphPattern)
         {
             if (graphUri is null) buildGraphPattern(builder);
-            else builder.Graph(graphUri, buildGraphPattern);
+            else builder.Graph(new GraphUri(graphUri), buildGraphPattern);
             return builder;
         }
 
