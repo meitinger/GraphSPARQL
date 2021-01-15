@@ -1,0 +1,97 @@
+{
+  "Query": {
+    "Fields": [
+      {
+        "Name": "person",
+        "Object": "Person",
+        "IsArray": true
+      }
+    ]
+  },
+  "Interfaces": [
+    {
+      "Name": "IRdfsExtensions",
+      "Namespace": "http://www.w3.org/2000/01/rdf-schema#", // default namespace for all fields in this interface
+      "Fields": [
+        {
+          "Name": "label",
+          // since there is no "Namespace" the interface's namespace is used
+          // same holds for "DataSource" and "Graph"
+          "IsArray": true,
+          "Scalar": "LanguageString"
+        }
+      ]
+    }
+  ],
+  "Scalars": [
+    // scalars allow for custom handling of RDF data and return
+    // {
+    //   uri: IRI as string
+    //   value: string for non-IRI data
+    //   dataType: the data type's IRI (empty for URIs)
+    //   language: language code
+    //}
+    {
+      "Name": "IntOrString",
+      "DataTypes": [
+        "http://www.w3.org/2001/XMLSchema#int",
+        "http://www.w3.org/2001/XMLSchema#string"
+      ]
+    }
+  ],
+  "Enums": [
+    {
+      // sample enumeration
+      "Name": "Profession",
+      "DataType": "http://www.w3.org/2000/01/rdf-schema#Class", // use this special data type to specify that the values are IRIs
+      "Values": {
+        "SCIENTIST": "http://dbpedia.org/resource/Scientist",
+        "ENGINEER": "http://dbpedia.org/resource/Engineer",
+        "PHYSICIST": "http://dbpedia.org/resource/Physicist",
+        "LECTURER": "http://dbpedia.org/resource/Lecturer"
+      }
+    }
+  ],
+  "Unions": [
+    {
+      // sample union
+      "Name": "PersonOrAnimal",
+      "Types": [ "Person", "Animal" ]
+    }
+  ],
+  "Types": [
+    {
+      "Name": "Person",
+      // without "DataSource" the default data source is used
+      // without "Namespace" the "DefaultNamespace" of the data source is used
+      // without "Graph" the "DefaultGraph" of the data source is used
+      "Interfaces": [ "IRdfsExtensions" ], // all fields from the interface are included automatically
+      "Fields": [
+        {
+          "Name": "birthYear",
+          "Scalar": "Date",
+          "DataType": "http://www.w3.org/2001/XMLSchema#gYear", // overrides the default data type for "Date"
+          "Format": "yyyy" // overrides the default format for "Date"
+        },
+        {
+          "Name": "job", // this is an alias ...
+          "Predicate": "http://dbpedia.org/ontology/profession", // ... so the actual IRI needs to be declared
+          "Scalar": "Profession", // see Scalars.cs for possible values, can also be a custom scalar or enum
+          // without "DataType" and "Format", an ordinary XMLSchema#string is used
+          "IsArray": true
+        },
+        {
+          "Name": "spouse",
+          "DataSource": "AnotherDB", // specifies another data source
+          "Predicate": "http://dbpedia.org/ontology/spouse", // without this, the IRI would be generated from the default namespace of the data source, since the type does not contain a namespace
+          "Graph": "http://dbpedia.org", // the same is true for the graph
+          "Object": "Person",
+          "IsArray": true
+        }
+      ]
+    },
+    {
+      "Name": "Animal"
+    }
+  ]
+}

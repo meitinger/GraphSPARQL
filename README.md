@@ -67,6 +67,10 @@ _RDF_ harvester.
 Settings for the harvester are per namespace and documented in the
 `RdfNamespace` class, located in the `.\src\Types\Providers\Rdf.cs` file.
 
+`.\example\sample1.json` is a small schema sample showcasing most of the
+features using the internal _GraphSPARQL_ format. To use it, you have to load
+the configuration file `.\example\config-sample1.json` in `.\src\Startup.cs`.
+
 More configuration examples are soon to come.
 
 Usage

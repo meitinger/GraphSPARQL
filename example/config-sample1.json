@@ -1,0 +1,37 @@
+{
+  "DataSources": [
+    {
+      "Name": "DBpedia",
+      "Provider": "remote",
+      "DefaultNamespace": "http://dbpedia.org/ontology/",
+      "Prefixes": {
+        "dbo": "http://dbpedia.org/ontology/",
+        "dbp": "http://dbpedia.org/property/",
+        "dbr": "http://dbpedia.org/resource/"
+      },
+      "Settings": {
+        "EndpointUri": "http://dbpedia.org/sparql/"
+      }
+    },
+    {
+      "Name": "AnotherDB",
+      "Provider": "remote",
+      "DefaultNamespace": "http://anotherdb.org/ontology/",
+      "DefaultGraph": "http://anotherdb.org/graph/main",
+      "Prefixes": {
+        "other": "http://anotherdb.org/ontology/"
+      },
+      "Settings": {
+        "EndpointUri": "http://dbpedia.org/sparql/"
+      }
+    }
+  ],
+  "Definitions": [
+    {
+      "Provider": "json",
+      "Settings": {
+        "Path": "sample1.json"
+      }
+    }
+  ]
+}
