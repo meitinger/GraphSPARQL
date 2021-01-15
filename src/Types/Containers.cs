@@ -35,7 +35,6 @@ namespace UIBK.GraphSPARQL.Types
     public abstract class SchemaContainer : SchemaTypeElement
     {
         private readonly IDictionary<string, SchemaField> _fields = new SortedDictionary<string, SchemaField>(StringComparer.Ordinal);
-        private SparqlDataSource? _dataSource;
         private Uri? _graphUri;
         private IEnumerable<SchemaField>? _jsonFields;
 
@@ -47,7 +46,7 @@ namespace UIBK.GraphSPARQL.Types
         /// <inheritdoc/>
         protected override void JsonInitialize()
         {
-            _jsonFields.EmptyIfNull().ForEach(field => AddField(field, field.JsonError, NamespaceUri, _dataSource, _graphUri));
+            _jsonFields.EmptyIfNull().ForEach(field => AddField(field, field.JsonError, NamespaceUri, DataSource, _graphUri));
             base.JsonInitialize();
         }
 
@@ -61,11 +60,14 @@ namespace UIBK.GraphSPARQL.Types
             set => NamespaceUri = EnsureAbsoluteUri(value);
         }
 
-        [JsonProperty(Order = OrderOfDataSource)]
+        [JsonIgnore]
+        internal SparqlDataSource? DataSource { get; private set; }
+
+        [JsonProperty(PropertyName = "DataSource", Order = OrderOfDataSource)]
         [SuppressMessage("CodeQuality", "IDE0051")]
-        private string? DataSource
+        private string? DataSourceName
         {
-            set => _dataSource = Schema.DataSources.GetByName(JsonTrace(value));
+            set => DataSource = Schema.DataSources.GetByName(JsonTrace(value));
         }
 
         [JsonProperty(Order = OrderOfGraph)]
@@ -375,11 +377,7 @@ namespace UIBK.GraphSPARQL.Types
         /// <inheritdoc/>
         protected override void JsonInitialize()
         {
-            if (_classIri is null)
-            {
-                if (NamespaceUri is null) throw JsonError("Either the type's class or namespace must be given.");
-                _classIri = new Iri(NamespaceUri, Name);
-            }
+            if (_classIri is null) _classIri = new Iri(NamespaceUri ?? (DataSource ?? Schema.DataSources.Default)?.DefaultNamespaceUri ?? throw JsonError("No default namespace, either the type's class or namespace must be given."), Name);
             InitializeClass();
             base.JsonInitialize();
         }
