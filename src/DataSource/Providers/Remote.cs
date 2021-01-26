@@ -29,12 +29,20 @@ namespace UIBK.GraphSPARQL.DataSource.Providers
     internal sealed class RemoteSparqlProvider : JsonElement, IDataSourceProvider
     {
         private Uri? _endointUri;
+        private Uri? _updateEndpointUri;
 
         [JsonProperty(Required = Required.Always)]
         public Uri EndpointUri
         {
             get => _endointUri.RequireProperty();
             private set => _endointUri = EnsureAbsoluteUri(value);
+        }
+
+        [JsonProperty]
+        public Uri? UpdateEndpointUri
+        {
+            get => _updateEndpointUri;
+            private set => _updateEndpointUri = EnsureAbsoluteUri(value);
         }
 
         [JsonProperty]
@@ -60,6 +68,6 @@ namespace UIBK.GraphSPARQL.DataSource.Providers
 
         public ISparqlQueryProcessor CreateQueryProcessor() => new RemoteQueryProcessor(AdjustEndpoint(new SparqlRemoteEndpoint(EndpointUri)));
 
-        public ISparqlUpdateProcessor CreateUpdateProcessor() => new RemoteUpdateProcessor(AdjustEndpoint(new SparqlRemoteUpdateEndpoint(EndpointUri)));
+        public ISparqlUpdateProcessor CreateUpdateProcessor() => new RemoteUpdateProcessor(AdjustEndpoint(new SparqlRemoteUpdateEndpoint(UpdateEndpointUri ?? EndpointUri)));
     }
 }
