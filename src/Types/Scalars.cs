@@ -568,16 +568,36 @@ namespace UIBK.GraphSPARQL.Types
     {
         internal abstract class DateTimeRepresentation : TypedRepresentation<T>
         {
-            internal abstract DateTime DateTime { get; set; }
+            protected abstract DateTimeOffset DateTimeOffset { get; set; }
 
-            protected sealed override void FromString(string s) => DateTime = XmlConvert.ToDateTime(s, XmlDateTimeSerializationMode.RoundtripKind);
+            public int? Offset { get; set; }
+
+            protected sealed override void FromString(string s)
+            {
+                var dateTimeOffset = DateTimeOffset.Parse(s, CultureInfo.InvariantCulture, DateTimeStyles.AllowWhiteSpaces);
+                Offset = System.DateTime.Parse(s, CultureInfo.InvariantCulture, DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.RoundtripKind).Kind == DateTimeKind.Unspecified ? null : (int)dateTimeOffset.Offset.TotalMinutes;
+                DateTimeOffset = dateTimeOffset;
+            }
+
+            public string ToString(string format)
+            {
+                var dateTimeOffset = DateTimeOffset;
+                return !Offset.HasValue
+                    ? new DateTime(dateTimeOffset.Year, dateTimeOffset.Month, dateTimeOffset.Day, dateTimeOffset.Hour, dateTimeOffset.Minute, dateTimeOffset.Second, dateTimeOffset.Millisecond, DateTimeKind.Unspecified).ToString(format, CultureInfo.InvariantCulture)
+                    : new DateTimeOffset(dateTimeOffset.Year, dateTimeOffset.Month, dateTimeOffset.Day, dateTimeOffset.Hour, dateTimeOffset.Minute, dateTimeOffset.Second, dateTimeOffset.Millisecond, TimeSpan.FromMinutes(Offset.Value)).ToString(format, CultureInfo.InvariantCulture);
+            }
         }
 
         internal SchemaBaseDateTimeScalar(string name) : base(name) { }
 
-        internal sealed override T FromSparql(string value) => new T() { DateTime = System.DateTime.Parse(value, CultureInfo.InvariantCulture, DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.RoundtripKind) };
+        internal sealed override T FromSparql(string value)
+        {
+            var representation = new T();
+            representation.FromString(value);
+            return representation;
+        }
 
-        internal sealed override string ToSparql(T value) => value.DateTime.ToString(Format, CultureInfo.InvariantCulture);
+        internal sealed override string ToSparql(T value) => value.ToString(Format);
     }
 
     internal sealed class SchemaDateTimeScalar : SchemaBaseDateTimeScalar<SchemaDateTimeScalar.Representation, SchemaDateTimeScalar>
@@ -591,11 +611,10 @@ namespace UIBK.GraphSPARQL.Types
             public int Minute { get; set; }
             public int Second { get; set; }
             public int Millisecond { get; set; }
-            public DateTimeKind Kind { get; set; }
 
-            internal override DateTime DateTime
+            protected override DateTimeOffset DateTimeOffset
             {
-                get => new DateTime(Year, Month, Day, Hour, Minute, Second, Millisecond, Kind);
+                get => new DateTimeOffset(Year, Month, Day, Hour, Minute, Second, Millisecond, TimeSpan.Zero);
                 set
                 {
                     Year = value.Year;
@@ -605,7 +624,6 @@ namespace UIBK.GraphSPARQL.Types
                     Minute = value.Minute;
                     Second = value.Second;
                     Millisecond = value.Millisecond;
-                    Kind = value.Kind;
                 }
             }
         }
@@ -628,17 +646,15 @@ namespace UIBK.GraphSPARQL.Types
             public int Year { get; set; }
             public int Month { get; set; }
             public int Day { get; set; }
-            public DateTimeKind Kind { get; set; }
 
-            internal override DateTime DateTime
+            protected override DateTimeOffset DateTimeOffset
             {
-                get => new DateTime(Year, Month, Day, 0, 0, 0, Kind);
+                get => new DateTimeOffset(Year, Month, Day, 0, 0, 0, TimeSpan.Zero);
                 set
                 {
                     Year = value.Year;
                     Month = value.Month;
                     Day = value.Day;
-                    Kind = value.Kind;
                 }
             }
         }
@@ -649,7 +665,7 @@ namespace UIBK.GraphSPARQL.Types
 
         public override Iri DefaultDataTypeIri => XmlSchemaIri;
 
-        public override string DefaultFormat => "yyyy-MM-dd";
+        public override string DefaultFormat => "yyyy-MM-ddK";
 
         internal override object? FromGraphQL(IValue value) => Representation.FromValue(value);
     }
@@ -662,18 +678,16 @@ namespace UIBK.GraphSPARQL.Types
             public int Minute { get; set; }
             public int Second { get; set; }
             public int Millisecond { get; set; }
-            public DateTimeKind Kind { get; set; }
 
-            internal override DateTime DateTime
+            protected override DateTimeOffset DateTimeOffset
             {
-                get => new DateTime(1, 1, 1, Hour, Minute, Second, Millisecond, Kind);
+                get => new DateTimeOffset(1, 1, 1, Hour, Minute, Second, Millisecond, TimeSpan.Zero);
                 set
                 {
                     Hour = value.Year;
                     Minute = value.Minute;
                     Second = value.Second;
                     Millisecond = value.Millisecond;
-                    Kind = value.Kind;
                 }
             }
         }
