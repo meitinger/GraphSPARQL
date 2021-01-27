@@ -43,7 +43,7 @@
     {
       // sample enumeration
       "Name": "Profession",
-      "DataType": "http://www.w3.org/2000/01/rdf-schema#Class", // use this special data type to specify that the values are IRIs
+      "DataType": "https://schema.uibk.ac.at/GraphSPARQL/iri", // use this special data type to specify that the values are IRIs
       "Values": {
         "SCIENTIST": "http://dbpedia.org/resource/Scientist",
         "ENGINEER": "http://dbpedia.org/resource/Engineer",

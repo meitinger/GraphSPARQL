@@ -85,17 +85,17 @@ namespace UIBK.GraphSPARQL.Types
         /// <summary>
         /// Gets an <see cref="Iri"/> that indicates if no underlying data type should be specified.
         /// </summary>
-        public static Iri PlainLiteralIri { get; } = new Iri("http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral");
+        public static Iri PlainLiteralDataTypeIri { get; } = new Iri("http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral");
 
         /// <summary>
         /// Gets an <see cref="Iri"/> that indicates if a custom scalar can get and set language strings. 
         /// </summary>
-        public static Iri LangStringIri { get; } = new Iri("http://www.w3.org/1999/02/22-rdf-syntax-ns#langString");
+        public static Iri LangStringDataTypeIri { get; } = new Iri("http://www.w3.org/1999/02/22-rdf-syntax-ns#langString");
 
         /// <summary>
         /// Gets an <see cref="Iri"/> that indicates if a custom scalar can get or set resource IRIs.
         /// </summary>
-        public static Iri ClassIri { get; } = new Iri("http://www.w3.org/2000/01/rdf-schema#Class");
+        public static Iri IriDataTypeIri { get; } = new Iri("https://schema.uibk.ac.at/GraphSPARQL/iri");
 
         /// <summary>
         /// Defines a new boolean scalar.
@@ -291,7 +291,7 @@ namespace UIBK.GraphSPARQL.Types
 
         internal abstract T FromSparql(string value);
 
-        internal sealed override VDS.RDF.INode? ToSparql(object value, VDS.RDF.INodeFactory factory) => value is T t ? DataTypeIri == PlainLiteralIri ? factory.CreateLiteralNode(ToSparql(t)) : factory.CreateLiteralNode(ToSparql(t), DataTypeIri.Uri) : null;
+        internal sealed override VDS.RDF.INode? ToSparql(object value, VDS.RDF.INodeFactory factory) => value is T t ? DataTypeIri == PlainLiteralDataTypeIri ? factory.CreateLiteralNode(ToSparql(t)) : factory.CreateLiteralNode(ToSparql(t), DataTypeIri.Uri) : null;
 
         internal abstract string ToSparql(T value);
 
@@ -368,7 +368,7 @@ namespace UIBK.GraphSPARQL.Types
         {
             if (value is VDS.RDF.IUriNode u)
             {
-                if (_dataTypeIris.Contains(ClassIri)) return new Representation() { Uri = u.Uri };
+                if (_dataTypeIris.Contains(IriDataTypeIri)) return new Representation() { Uri = u.Uri };
             }
             else if (value is VDS.RDF.ILiteralNode l)
             {
@@ -378,11 +378,11 @@ namespace UIBK.GraphSPARQL.Types
                 }
                 else if (!string.IsNullOrEmpty(l.Language))
                 {
-                    if (_dataTypeIris.Contains(LangStringIri)) return new Representation() { Value = l.Value, Language = l.Language };
+                    if (_dataTypeIris.Contains(LangStringDataTypeIri)) return new Representation() { Value = l.Value, Language = l.Language };
                 }
                 else
                 {
-                    if (_dataTypeIris.Contains(PlainLiteralIri)) return new Representation() { Value = l.Value };
+                    if (_dataTypeIris.Contains(PlainLiteralDataTypeIri)) return new Representation() { Value = l.Value };
                 }
             }
             return null;
@@ -394,7 +394,7 @@ namespace UIBK.GraphSPARQL.Types
             if (r.Uri is not null)
             {
                 if (r.Value is not null || r.Language is not null) throw new FormatException($"{nameof(r.Uri)} cannot be set together with {nameof(r.Value)} or {nameof(r.Language)}.");
-                if (_dataTypeIris.Contains(ClassIri)) return factory.CreateUriNode(r.Uri);
+                if (_dataTypeIris.Contains(IriDataTypeIri)) return factory.CreateUriNode(r.Uri);
             }
             else if (r.DataType is not null)
             {
@@ -403,11 +403,11 @@ namespace UIBK.GraphSPARQL.Types
             }
             else if (!string.IsNullOrEmpty(r.Language))
             {
-                if (_dataTypeIris.Contains(LangStringIri)) return factory.CreateLiteralNode(r.Value, r.Language);
+                if (_dataTypeIris.Contains(LangStringDataTypeIri)) return factory.CreateLiteralNode(r.Value, r.Language);
             }
             else
             {
-                if (_dataTypeIris.Contains(PlainLiteralIri)) return factory.CreateLiteralNode(r.Value);
+                if (_dataTypeIris.Contains(PlainLiteralDataTypeIri)) return factory.CreateLiteralNode(r.Value);
             }
             return null;
         }
@@ -857,8 +857,8 @@ namespace UIBK.GraphSPARQL.Types
         internal override VDS.RDF.INode? ToSparql(object value, VDS.RDF.INodeFactory factory)
         {
             if (value is not string s) return null;
-            if (DataTypeIri == PlainLiteralIri) return factory.CreateLiteralNode(s);
-            else if (DataTypeIri == ClassIri) return factory.CreateUriNode(new Uri(s, UriKind.RelativeOrAbsolute));
+            if (DataTypeIri == PlainLiteralDataTypeIri) return factory.CreateLiteralNode(s);
+            else if (DataTypeIri == IriDataTypeIri) return factory.CreateUriNode(new Uri(s, UriKind.RelativeOrAbsolute));
             else return factory.CreateLiteralNode(s, DataTypeIri.Uri);
         }
 

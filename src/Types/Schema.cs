@@ -259,7 +259,7 @@ namespace UIBK.GraphSPARQL.Types
         /// <param name="dataTypeIri">The <see cref="Iri"/> of the underlying data type.</param>
         /// <returns>A new <see cref="SchemaEnum"/> instance.</returns>
         /// <exception cref="ArgumentException">If another <see cref="SchemaType"/>, <see cref="SchemaInterface"/>, <see cref="SchemaUnion"/>, <see cref="SchemaCustomScalar"/> or <see cref="SchemaEnum"/> with the given <paramref name="name"/> already exists or <paramref name="name"/> contains invalid characters.</exception>
-        /// <remarks>Use <see cref="SchemaScalar.ClassIri"/> for <paramref name="dataTypeIri"/> in case the enum values represent IRIs or <see cref="SchemaScalar.PlainLiteralIri"/> to not use data types at all.</remarks>
+        /// <remarks>Use <see cref="SchemaScalar.IriDataTypeIri"/> for <paramref name="dataTypeIri"/> in case the enum values represent IRIs or <see cref="SchemaScalar.PlainLiteralDataTypeIri"/> to not use data types at all.</remarks>
         public SchemaEnum CreateEnum(string name, Iri dataTypeIri) => AddFromApi(new SchemaEnum(this, name, dataTypeIri));
 
         /// <summary>

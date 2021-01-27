@@ -386,8 +386,8 @@ namespace UIBK.GraphSPARQL.Types.Providers
                     foreach (var rdfDataType in property.Ranges)
                     {
                         if (KnownScalars.TryGetValue(rdfDataType.Iri, out var scalar)) rangeScalars[rdfDataType.Iri] = scalar;
-                        else if (rdfDataType.Iri == SchemaScalar.LangStringIri) rangeScalars[SchemaScalar.LangStringIri] = SchemaScalar.LanguageString();
-                        else if (!rdfDataType.IsDataType || rdfDataType.Iri == SchemaScalar.ClassIri) rangeScalars[SchemaScalar.ClassIri] = SchemaScalar.Id();
+                        else if (rdfDataType.Iri == SchemaScalar.LangStringDataTypeIri) rangeScalars[SchemaScalar.LangStringDataTypeIri] = SchemaScalar.LanguageString();
+                        else if (!rdfDataType.IsDataType || rdfDataType.Iri == SchemaScalar.IriDataTypeIri) rangeScalars[SchemaScalar.IriDataTypeIri] = SchemaScalar.Id();
                         else if (rdfDataType.AllowDeclaration) rangeScalars.Add(rdfDataType.Iri, Schema.AddInternal(new SchemaCustomScalar(Schema, rdfDataType.NameForTypes), rdfDataType.HarvestError));
                         else rangeScalars.Add(rdfDataType.Iri, null);
                     }

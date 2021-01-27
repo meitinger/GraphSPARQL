@@ -172,7 +172,7 @@ namespace UIBK.GraphSPARQL.DataSource
                 IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
             }
 
-            private const string TriplesPrefix = "https://schemas.uibk.ac.at/GraphSPARQL/triples/";
+            private const string TriplesPrefix = "https://schema.uibk.ac.at/GraphSPARQL/triples/";
             private static readonly Uri TriplesPrefixUri = new Uri(TriplesPrefix);
             private static readonly Uri XsdPrefixUri = new Uri("http://www.w3.org/2001/XMLSchema");
             private static readonly Uri RdfPrefixUri = new Uri("http://www.w3.org/1999/02/22-rdf-syntax-ns#");
