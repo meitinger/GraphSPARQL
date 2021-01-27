@@ -201,11 +201,6 @@ namespace UIBK.GraphSPARQL
 
         public static IGraphPatternBuilder OptionalWhere(this IGraphPatternBuilder builder, Action<ITriplePatternBuilder> buildTriplePatterns) => builder.Optional(opt => opt.Where(buildTriplePatterns));
 
-        public static IEnumerable<T> EnumerateArgument<T>(this IResolveFieldContext context, QueryArgument arg) =>
-            context.HasArgument(arg.Name)
-                ? context.GetArgument<IEnumerable<T>?>(arg.Name).EmptyIfNull()
-                : Enumerable.Empty<T>();
-
         public static void HandleArgument<T>(this IResolveFieldContext context, QueryArgument arg, Action<T> action)
         {
             if (!context.HasArgument(arg.Name)) return;

@@ -157,19 +157,19 @@ namespace UIBK.GraphSPARQL.Query
                 request.HandleArgument<string>(IdArgument, id => And(new EqualsExpression(IdTerm, new Iri(id).Term)));
                 if (Field.IsArray)
                 {
-                    request
-                        .EnumerateArgument<string>(IdsArgument)
+                    request.HandleArgument<IEnumerable<string>>(IdsArgument, ids => ids
                         .Select(id => new EqualsExpression(IdTerm, new Iri(id).Term))
-                        .ForEach(And);
+                        .ForEach(And)
+                    );
                 }
             }
             if (CanRequire)
             {
                 if (Field.IsRequired) And(new BoundFunction(new VariableTerm(Field.Name)));
-                request
-                    .EnumerateArgument<string>(RequireArgument)
+                request.HandleArgument<IEnumerable<string>>(RequireArgument, require => require
                     .Select(field => new BoundFunction(new VariableTerm(field)))
-                    .ForEach(And);
+                    .ForEach(And)
+                );
             }
 
             return Context.QueryData.LoadAsync(new Request(
