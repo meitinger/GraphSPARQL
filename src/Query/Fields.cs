@@ -133,8 +133,6 @@ namespace UIBK.GraphSPARQL.Query
 
         private VDS.RDF.INode CreateNode(object obj) => Field.MutationScalar.ToSparql(obj, NodeFactory) ?? throw new ExecutionError($"Failed to convert value '{obj}' of type {obj.GetType().Name} to {Field.MutationScalar}.");
 
-        private ISet<VDS.RDF.INode> NodesFromArgument(IResolveFieldContext request, string name) => request.GetArgument<IEnumerable<string>?>(name).EmptyIfNull().Select(CreateNode).ToHashSet();
-
         object IFieldResolver.Resolve(IResolveFieldContext context) => Field.IsArray ? ResolveMultiple(context.As<Instance?>()) : ResolveSingle(context.As<Instance?>());
 
         protected abstract TReturn Resolve(IResolveFieldContext<Instance?> request, VDS.RDF.INode node, IEnumerable<Iri> types);
@@ -213,16 +211,17 @@ namespace UIBK.GraphSPARQL.Query
                     var existingNodes = results.ToDictionary(result => result.Object);
                     ISet<VDS.RDF.INode> nodesToInsert;
                     ISet<VDS.RDF.INode> nodesToDelete;
+                    ISet<VDS.RDF.INode> getNodes(string name) => request.GetArgument<IEnumerable<string>?>(name).EmptyIfNull().Select(CreateNode).ToHashSet();
                     if (request.HasArgument(Set))
                     {
                         if (request.HasArgument(Add) || request.HasArgument(Remove)) throw new ExecutionError($"If argument '{Set}' is given, neither '{Add}' nor '{Remove}' must specified.");
-                        nodesToInsert = NodesFromArgument(request, Set);
+                        nodesToInsert = getNodes(Set);
                         nodesToDelete = new HashSet<VDS.RDF.INode>(existingNodes.Keys);
                     }
                     else
                     {
-                        nodesToInsert = NodesFromArgument(request, Add);
-                        nodesToDelete = NodesFromArgument(request, Remove);
+                        nodesToInsert = request.HasArgument(Add) ? getNodes(Add) : new HashSet<VDS.RDF.INode>();
+                        nodesToDelete = request.HasArgument(Remove) ? getNodes(Remove) : new HashSet<VDS.RDF.INode>();
                     }
                     nodesToDelete.IntersectWith(existingNodes.Keys); // only delete existing data
                     nodesToInsert.ExceptWith(existingNodes.Keys); // don't create existing data

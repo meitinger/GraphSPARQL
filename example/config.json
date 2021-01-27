@@ -9,7 +9,8 @@
         "dbr": "http://dbpedia.org/resource/"
       },
       "Settings": {
-        "EndpointUri": "http://dbpedia.org/sparql/"
+        "EndpointUri": "http://dbpedia.org/sparql/",
+        "HttpMode": "GET"
       }
     }
   ],

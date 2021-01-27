@@ -39,6 +39,9 @@ namespace UIBK.GraphSPARQL.DataSource.Providers
         }
 
         [JsonProperty]
+        public string? HttpMode { get; private set; }
+
+        [JsonProperty]
         public Uri? UpdateEndpointUri
         {
             get => _updateEndpointUri;
@@ -66,7 +69,12 @@ namespace UIBK.GraphSPARQL.DataSource.Providers
             return endpoint;
         }
 
-        public ISparqlQueryProcessor CreateQueryProcessor() => new RemoteQueryProcessor(AdjustEndpoint(new SparqlRemoteEndpoint(EndpointUri)));
+        public ISparqlQueryProcessor CreateQueryProcessor()
+        {
+            var endpoint = new SparqlRemoteEndpoint(EndpointUri);
+            if (HttpMode is not null) endpoint.HttpMode = HttpMode;
+            return new RemoteQueryProcessor(AdjustEndpoint(endpoint));
+        }
 
         public ISparqlUpdateProcessor CreateUpdateProcessor() => new RemoteUpdateProcessor(AdjustEndpoint(new SparqlRemoteUpdateEndpoint(UpdateEndpointUri ?? EndpointUri)));
     }
