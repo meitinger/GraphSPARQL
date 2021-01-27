@@ -282,7 +282,12 @@ namespace UIBK.GraphSPARQL.Types
         [JsonIgnore]
         public Iri DataTypeIri => _dataTypeIri ?? DefaultDataTypeIri;
 
-        internal sealed override object? FromSparql(VDS.RDF.INode value) => value is VDS.RDF.ILiteralNode node && (node.DataType is null || node.DataType == DataTypeIri) ? (object?)FromSparql(node.Value) : null;
+        internal sealed override object? FromSparql(VDS.RDF.INode value) => value switch
+        {
+            VDS.RDF.ILiteralNode literal => FromSparql(literal.Value),
+            VDS.RDF.IUriNode uri => FromSparql(uri.Uri.ToString()),
+            _ => null
+        };
 
         internal abstract T FromSparql(string value);
 
@@ -543,7 +548,12 @@ namespace UIBK.GraphSPARQL.Types
 
         internal override IGraphType CreateQueryType() => new IdGraphType();
 
-        internal override object? FromSparql(VDS.RDF.INode value) => value is VDS.RDF.IUriNode node ? node.Uri : null;
+        internal override object? FromSparql(VDS.RDF.INode value) => value switch
+        {
+            VDS.RDF.ILiteralNode literal => new Uri(literal.Value, UriKind.RelativeOrAbsolute),
+            VDS.RDF.IUriNode uri => uri.Uri,
+            _ => null
+        };
 
         internal override VDS.RDF.INode? ToSparql(object value, VDS.RDF.INodeFactory factory) => factory.CreateUriNode(ValueConverter.ConvertTo<Uri>(value));
 
@@ -752,7 +762,12 @@ namespace UIBK.GraphSPARQL.Types
 
         public string Format => _format ?? DefaultFormat;
 
-        internal override object? FromSparql(VDS.RDF.INode value) => value is VDS.RDF.ILiteralNode node && node.DataType is null ? new Representation() { Value = node.Value, Language = node.Language } : null;
+        internal override object? FromSparql(VDS.RDF.INode value) => value switch
+        {
+            VDS.RDF.ILiteralNode literal => new Representation() { Value = literal.Value, Language = literal.Language },
+            VDS.RDF.IUriNode uri => new Representation() { Value = uri.Uri.ToString(), Language = string.Empty },
+            _ => null
+        };
 
         internal override VDS.RDF.INode? ToSparql(object value, VDS.RDF.INodeFactory factory) => value is Representation r ? factory.CreateLiteralNode(r.Value ?? string.Empty, r.Language ?? Format) : null;
 
@@ -832,18 +847,12 @@ namespace UIBK.GraphSPARQL.Types
 
         internal override IGraphType CreateQueryType() => new GraphQLScalar(this);
 
-        internal override object? FromSparql(VDS.RDF.INode value)
+        internal override object? FromSparql(VDS.RDF.INode value) => value switch
         {
-            if (value is VDS.RDF.IUriNode u)
-            {
-                if (DataTypeIri == ClassIri) return u.Uri.ToString();
-            }
-            else if (value is VDS.RDF.ILiteralNode n && string.IsNullOrEmpty(n.Language))
-            {
-                if (n.DataType is null || DataTypeIri == n.DataType) return n.Value;
-            }
-            return null;
-        }
+            VDS.RDF.ILiteralNode literal => literal.Value,
+            VDS.RDF.IUriNode uri => uri.Uri.ToString(),
+            _ => null
+        };
 
         internal override VDS.RDF.INode? ToSparql(object value, VDS.RDF.INodeFactory factory)
         {

@@ -188,7 +188,7 @@ namespace UIBK.GraphSPARQL.Query
                 return
                     !Field.IsRequired || values.Any()
                         ? values.Select(value => Resolve(request, value.Object, value.Types))
-                        : throw new Exception("No entry was returned.");
+                        : throw new Exception($"No entry was returned for {Field}.");
             });
         }
 
@@ -196,9 +196,9 @@ namespace UIBK.GraphSPARQL.Query
         {
             // limit to one result
             using var enumerator = values.GetEnumerator();
-            if (!enumerator.MoveNext()) return !Field.IsRequired ? default(TReturn) : throw new ExecutionError("No entry was returned.");
+            if (!enumerator.MoveNext()) return !Field.IsRequired ? default(TReturn) : throw new ExecutionError($"No entry was returned for {Field}.");
             var result = enumerator.Current;
-            if (enumerator.MoveNext()) throw new ExecutionError("More than one entry was returned.");
+            if (enumerator.MoveNext()) throw new ExecutionError($"More than one entry was returned for {Field}.");
             return result;
         });
 
@@ -247,7 +247,7 @@ namespace UIBK.GraphSPARQL.Query
                         {
                             case 0: break;
                             case 1: Context.DeleteData(subject, Predicate, results.Single().Object); break;
-                            default: throw new ExecutionError("More than a single entry currently exist");
+                            default: throw new ExecutionError($"More than a single entry currently exist for {Field}.");
                         }
                         var value = request.GetArgument(Set, (object?)null);
                         if (value is not null)
