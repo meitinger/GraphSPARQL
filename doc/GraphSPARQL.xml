@@ -1,0 +1,1584 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>GraphSPARQL</name>
+    </assembly>
+    <members>
+        <member name="T:UIBK.GraphSPARQL.Configuration.CredentialsConfiguration">
+            <summary>
+            Configuration element for credentials.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Configuration.CredentialsConfiguration.JsonInitialize">
+            <inheritdoc/>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Configuration.CredentialsConfiguration.UseDefault">
+            <summary>
+            Indicates whether the user's default credentials should be used.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Configuration.CredentialsConfiguration.UserName">
+            <summary>
+            Gets the user name.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">If <see cref="P:UIBK.GraphSPARQL.Configuration.CredentialsConfiguration.UseDefault"/> is <c>true</c>.</exception>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Configuration.CredentialsConfiguration.Password">
+            <summary>
+            Get the password.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">If <see cref="P:UIBK.GraphSPARQL.Configuration.CredentialsConfiguration.UseDefault"/> is <c>true</c>.</exception>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Configuration.CredentialsConfiguration.Domain">
+            <summary>
+            Gets the domain or <c>null</c> if the default domain should be used or <see cref="P:UIBK.GraphSPARQL.Configuration.CredentialsConfiguration.UseDefault"/> is <c>true</c>.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Configuration.CredentialsConfiguration.op_Implicit(UIBK.GraphSPARQL.Configuration.CredentialsConfiguration)~System.Net.NetworkCredential">
+            <summary>
+            Converts the configuration element into <see cref="T:System.Net.NetworkCredential"/>.
+            </summary>
+            <param name="credentials">The <see cref="T:UIBK.GraphSPARQL.Configuration.CredentialsConfiguration"/> to convert.</param>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Configuration.ProxyConfiguration">
+            <summary>
+            Configuration element for proxy servers.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Configuration.ProxyConfiguration.Address">
+            <summary>
+            Gets the proxy server address.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Configuration.ProxyConfiguration.Credentials">
+            <summary>
+            Gets the credentials to be used when accessing the proxy or <c>null</c> if no login is required.
+            </summary>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Configuration.JsonTrace">
+            <summary>
+            Class capturing the JSON context.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Configuration.JsonTrace.FileName">
+            <summary>
+            The path to the current JSON file.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Configuration.JsonTrace.Path">
+            <summary>
+            The current JSON object path at time of capturing.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Configuration.JsonTrace.LineNumber">
+            <summary>
+            The current line number in a JSON file at time of capturing.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Configuration.JsonTrace.LinePosition">
+            <summary>
+            The current line position in a JSON file at time of capturing.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Configuration.JsonTrace.Deserialize(Newtonsoft.Json.Linq.JToken,System.Type)">
+            <summary>
+            Deserializes a JSON token using the captured context.
+            </summary>
+            <param name="token">The JSON token to deserialize.</param>
+            <param name="type">The type that should be returned.</param>
+            <returns>The deserialized object.</returns>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Configuration.JsonTrace.Error(System.String)">
+            <summary>
+            Returns a new exception describing the captured context.
+            </summary>
+            <param name="message">The exception's message.</param>
+            <returns>A new exception object.</returns>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Configuration.JsonTrace.Populate(Newtonsoft.Json.Linq.JToken,System.Object)">
+            <summary>
+            Populates an object with the JSON token using the captured context.
+            </summary>
+            <param name="token">The JSON token to deserialize.</param>
+            <param name="target">The object that should be populated.</param>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Configuration.JsonTrace`1">
+            <summary>
+            Class capturing the JSON context and a value.
+            </summary>
+            <typeparam name="T">The type of the captured value.</typeparam>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Configuration.JsonTrace`1.Value">
+            <summary>
+            Returns the captured value.
+            </summary>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Configuration.JsonElement">
+            <summary>
+            Base class for all JSON-serialized configuration objects.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Configuration.JsonElement.#ctor">
+            <summary>
+            Creates a new instance and populates all default values.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Configuration.JsonElement.#ctor(UIBK.GraphSPARQL.Types.Schema)">
+            <summary>
+            Creates a new instance with a given <see cref="T:UIBK.GraphSPARQL.Types.Schema"/>.
+            </summary>
+            <param name="schema">The <see cref="T:UIBK.GraphSPARQL.Types.Schema"/> this <see cref="T:UIBK.GraphSPARQL.Configuration.JsonElement"/> belongs to or <c>null</c> if the element is internal.</param>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Configuration.JsonElement.JsonError(System.String)">
+            <summary>
+            Returns a new exception object describing the current JSON context.
+            </summary>
+            <param name="message">The exception's message.</param>
+            <returns>A new <see cref="T:Newtonsoft.Json.JsonSerializationException"/> object.</returns>
+            <exception cref="T:System.InvalidOperationException">If the method was called outside of an JSON object.</exception>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Configuration.JsonElement.JsonInitialize">
+            <summary>
+            Overrideable function that gets called once the object is deserialized.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Configuration.JsonElement.JsonTrace">
+            <summary>
+            Captures the current JSON position.
+            </summary>
+            <returns>A captured <see cref="T:UIBK.GraphSPARQL.Configuration.JsonTrace"/>.</returns>
+            <exception cref="T:System.InvalidOperationException">If the object is not currently deserialized.</exception>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Configuration.JsonElement.JsonTrace``1(``0)">
+            <summary>
+            Captures the current JSON position together with a value.
+            </summary>
+            <typeparam name="T">The type of the value to capture.</typeparam>
+            <param name="value">The value to capture.</param>
+            <returns>A <see cref="T:UIBK.GraphSPARQL.Configuration.JsonTrace`1"/> containing the value and captured JSON position or <c>null</c> if <paramref name="value"/> is <c>null</c>.</returns>
+            <exception cref="T:System.InvalidOperationException">If the object is not currently deserialized.</exception>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Configuration.JsonElement.JsonTrace``1(System.Nullable{``0})">
+            <summary>
+            Captures the current JSON position together with a value.
+            </summary>
+            <typeparam name="T">The type of the value to capture.</typeparam>
+            <param name="value">The value to capture.</param>
+            <returns>A <see cref="T:UIBK.GraphSPARQL.Configuration.JsonTrace`1"/> containing the value and captured JSON position or <c>null</c> if <paramref name="value"/> is <c>null</c>.</returns>
+            <exception cref="T:System.InvalidOperationException">If the object is not currently deserialized.</exception>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Configuration.JsonElement.HasSchema">
+            <summary>
+            Indicates whether this object is internal and cannot be deserialized.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Configuration.JsonElement.Schema">
+            <summary>
+            Gets the <see cref="P:UIBK.GraphSPARQL.Configuration.JsonElement.Schema"/> this <see cref="T:UIBK.GraphSPARQL.Configuration.JsonElement"/> belongs to.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">If <see cref="P:UIBK.GraphSPARQL.Configuration.JsonElement.HasSchema"/> is <c>false</c>.</exception>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Configuration.ProviderConfiguration`1">
+            <summary>
+            Base class for all provider elements, with or without serializable settings.
+            </summary>
+            <typeparam name="T">The provider's interface.</typeparam>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Configuration.ProviderConfiguration`1.KnownTypesDictionary">
+            <summary>
+            Helper class to easily create an <see cref="T:System.Collections.Immutable.ImmutableDictionary`2"/>.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Configuration.ProviderConfiguration`1.KnownTypesDictionary.Add(System.String,System.Type)">
+            <inheritdoc cref="M:System.Collections.Immutable.ImmutableDictionary`2.Builder.Add(`0,`1)"/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Configuration.ProviderConfiguration`1.KnownTypesDictionary.GetEnumerator">
+            <inheritdoc/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Configuration.ProviderConfiguration`1.KnownTypesDictionary.ToImmutable">
+            <inheritdoc cref="M:System.Collections.Immutable.ImmutableDictionary`2.Builder.ToImmutable"/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Configuration.ProviderConfiguration`1.KnownTypesDictionary.System#Collections#IEnumerable#GetEnumerator">
+            <inheritdoc/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Configuration.ProviderConfiguration`1.JsonInitialize">
+            <inheritdoc/>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Configuration.ProviderConfiguration`1.Aliases">
+            <summary>
+            Gets a mapping of known or predefined types.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Configuration.ProviderConfiguration`1.Settings">
+            <summary>
+            Gets or sets the provider-dependent <see cref="T:UIBK.GraphSPARQL.Configuration.ProviderConfiguration`1"/> configuration data.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Configuration.ProviderConfiguration`1.Provider">
+            <summary>
+            Gets the provider instance.
+            </summary>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.DataSource.IDataSourceContextAccessor">
+            <inheritdoc cref="T:GraphQL.DataLoader.IDataLoaderContextAccessor"/>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.DataSource.IDataSourceContextAccessor.Context">
+            <inheritdoc cref="P:GraphQL.DataLoader.IDataLoaderContextAccessor.Context"/>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.DataSource.DataSourceContextAccessor">
+            <inheritdoc cref="T:GraphQL.DataLoader.DataLoaderContextAccessor"/>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.DataSource.DataSourceContextAccessor.Context">
+            <inheritdoc/>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.DataSource.DataSourceDocumentListener">
+            <inheritdoc cref="T:GraphQL.DataLoader.DataLoaderDocumentListener"/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.DataSource.DataSourceDocumentListener.#ctor(UIBK.GraphSPARQL.DataSource.IDataSourceContextAccessor)">
+            <inheritdoc cref="M:GraphQL.DataLoader.DataLoaderDocumentListener.#ctor(GraphQL.DataLoader.IDataLoaderContextAccessor)"/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.DataSource.DataSourceDocumentListener.AfterValidationAsync(GraphQL.Execution.IExecutionContext,GraphQL.Validation.IValidationResult)">
+            <inheritdoc/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.DataSource.DataSourceDocumentListener.BeforeExecutionAsync(GraphQL.Execution.IExecutionContext)">
+            <inheritdoc/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.DataSource.DataSourceDocumentListener.BeforeExecutionAwaitedAsync(GraphQL.Execution.IExecutionContext)">
+            <inheritdoc/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.DataSource.DataSourceDocumentListener.AfterExecutionAsync(GraphQL.Execution.IExecutionContext)">
+            <inheritdoc/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.DataSource.DataSourceDocumentListener.BeforeExecutionStepAwaitedAsync(GraphQL.Execution.IExecutionContext)">
+            <inheritdoc/>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.DataSource.DataSourceContext">
+            <inheritdoc cref="T:GraphQL.DataLoader.DataLoaderContext"/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.DataSource.DataSourceContext.AddUpdateCommand(UIBK.GraphSPARQL.DataSource.SparqlDataSource,VDS.RDF.Update.SparqlUpdateCommand)">
+            <summary>
+            Appends an <see cref="T:VDS.RDF.Update.SparqlUpdateCommand"/> to the cache.
+            </summary>
+            <param name="dataSource">The <see cref="T:UIBK.GraphSPARQL.DataSource.SparqlDataSource"/> the <see cref="T:VDS.RDF.Update.SparqlUpdateCommand"/> is run against.</param>
+            <param name="command">The <see cref="T:VDS.RDF.Update.SparqlUpdateCommand"/> to cache.</param>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.DataSource.DataSourceContext.DeleteData(UIBK.GraphSPARQL.Iri,UIBK.GraphSPARQL.Query.Predicate,VDS.RDF.INode)">
+            <summary>
+            Deletes the given triple from the <see cref="T:UIBK.GraphSPARQL.DataSource.SparqlDataSource"/>.
+            </summary>
+            <param name="subject">The subject <see cref="T:UIBK.GraphSPARQL.Iri"/>.</param>
+            <param name="predicate">The <see cref="T:UIBK.GraphSPARQL.Query.Predicate"/> specifying the predicate <see cref="T:UIBK.GraphSPARQL.Iri"/>, graph <see cref="T:System.Uri"/> and <see cref="T:UIBK.GraphSPARQL.DataSource.SparqlDataSource"/>.</param>
+            <param name="object">The <see cref="T:VDS.RDF.INode"/> to delete.</param>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.DataSource.DataSourceContext.InsertData(UIBK.GraphSPARQL.Iri,UIBK.GraphSPARQL.Query.Predicate,VDS.RDF.INode)">
+            <summary>
+            Inserts a given triple into the <see cref="T:UIBK.GraphSPARQL.DataSource.SparqlDataSource"/>.
+            </summary>
+            <param name="subject">The subject <see cref="T:UIBK.GraphSPARQL.Iri"/>.</param>
+            <param name="predicate">The <see cref="T:UIBK.GraphSPARQL.Query.Predicate"/> specifying the predicate <see cref="T:UIBK.GraphSPARQL.Iri"/>, graph <see cref="T:System.Uri"/> and <see cref="T:UIBK.GraphSPARQL.DataSource.SparqlDataSource"/>.</param>
+            <param name="object">The <see cref="T:VDS.RDF.INode"/> to insert.</param>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.DataSource.DataSourceContext.QueryData">
+            <summary>
+            Gets the data loader.
+            </summary>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.DataSource.IDataSourceProvider">
+            <summary>
+            Interface for data source provider.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.DataSource.IDataSourceProvider.CreateQueryProcessor">
+            <summary>
+            Creates a new query processor.
+            </summary>
+            <returns>A new <see cref="T:VDS.RDF.Query.ISparqlQueryProcessor"/> instance.</returns>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.DataSource.IDataSourceProvider.CreateUpdateProcessor">
+            <summary>
+            Creates a new update processor.
+            </summary>
+            <returns>A new <see cref="T:VDS.RDF.Update.ISparqlUpdateProcessor"/> instance.</returns>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.DataSource.SparqlDataSource">
+            <summary>
+            Class that represents a SPARQL endpoint.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.DataSource.SparqlDataSource.Name">
+            <summary>
+            Gets the unique name identifying the data source.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.DataSource.SparqlDataSource.DefaultNamespaceUri">
+            <summary>
+            Gets the default namespace for the data source.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.DataSource.SparqlDataSource.DefaultGraphUri">
+            <summary>
+            Gets the default graph to be used when querying the data source.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.DataSource.SparqlDataSource.Prefixes">
+            <summary>
+            Gets a mapping of prefixes to <see cref="T:System.Uri"/>s to be used when querying the <see cref="T:UIBK.GraphSPARQL.DataSource.SparqlDataSource"/>.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.DataSource.SparqlDataSource.QueryProcessor">
+            <summary>
+            Gets the <see cref="T:VDS.RDF.Query.ISparqlQueryProcessor"/>.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.DataSource.SparqlDataSource.UpdateProcessor">
+            <summary>
+            Gets the <see cref="T:VDS.RDF.Update.ISparqlUpdateProcessor"/>.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.DataSource.SparqlDataSource.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.DataSource.SparqlDataSourceCollection">
+            <summary>
+            Class that represents a collection of data sources with unique names.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.DataSource.SparqlDataSourceCollection.Default">
+            <summary>
+            Gets the data source that has been configured as default or the first one.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.DataSource.SparqlDataSourceCollection.TryGetByName(System.String,UIBK.GraphSPARQL.DataSource.SparqlDataSource@)">
+            <summary>
+            Finds and returns a data source with a given name.
+            </summary>
+            <param name="name">The name of the data source to return.</param>
+            <param name="dataSource">The output variable receiving the data source.</param>
+            <returns><c>true</c> if the data source was found, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.DataSource.SparqlDataSourceCollection.GetEnumerator">
+            <inheritdoc/>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Iri">
+            <summary>
+            Class representing an IRI.
+            </summary>
+            <remarks>Used instead of <see cref="P:UIBK.GraphSPARQL.Iri.Uri"/> to support strict equality.</remarks>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Iri.JsonConverter.CanConvert(System.Type)">
+            <inheritdoc/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Iri.JsonConverter.ReadJson(Newtonsoft.Json.JsonReader,System.Type,System.Object,Newtonsoft.Json.JsonSerializer)">
+            <inheritdoc/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Iri.JsonConverter.WriteJson(Newtonsoft.Json.JsonWriter,System.Object,Newtonsoft.Json.JsonSerializer)">
+            <inheritdoc/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Iri.#ctor(System.String)">
+            <summary>
+            Creates a new IRI from a <see cref="T:System.String"/>.
+            </summary>
+            <param name="s">The string representation.</param>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Iri.#ctor(System.Uri)">
+            <summary>
+            Creates a new IRI from an <see cref="P:UIBK.GraphSPARQL.Iri.Uri"/>.
+            </summary>
+            <param name="uri">The URI representation.</param>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Iri.#ctor(UIBK.GraphSPARQL.Iri,System.String)">
+            <summary>
+            Create a new IRI from a base IRI and relative name.
+            </summary>
+            <param name="baseIri">The base <see cref="T:UIBK.GraphSPARQL.Iri"/>.</param>
+            <param name="name">The relative name.</param>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Iri.Equals(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Iri.GetHashCode">
+            <inheritdoc/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Iri.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Iri.Equals(UIBK.GraphSPARQL.Iri)">
+            <inheritdoc/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Iri.op_Equality(UIBK.GraphSPARQL.Iri,UIBK.GraphSPARQL.Iri)">
+            <inheritdoc/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Iri.op_Inequality(UIBK.GraphSPARQL.Iri,UIBK.GraphSPARQL.Iri)">
+            <inheritdoc/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Iri.op_Implicit(System.String)~UIBK.GraphSPARQL.Iri">
+            <inheritdoc/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Iri.op_Implicit(System.Uri)~UIBK.GraphSPARQL.Iri">
+            <inheritdoc/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Iri.op_Implicit(UIBK.GraphSPARQL.Iri)~VDS.RDF.Query.Patterns.PatternItem">
+            <inheritdoc/>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Query.Filter">
+            <summary>
+            Class describing a query filter.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Query.Filter.#ctor(UIBK.GraphSPARQL.Types.SchemaType,UIBK.GraphSPARQL.Types.SchemaContainer,VDS.RDF.Query.Expressions.ISparqlExpression)">
+            <summary>
+            Create a new <see cref="T:UIBK.GraphSPARQL.Query.Filter"/> instance.
+            </summary>
+            <param name="parentType">The <see cref="T:UIBK.GraphSPARQL.Types.SchemaType"/> of the <see cref="T:UIBK.GraphSPARQL.Query.Instance"/> that this <see cref="T:UIBK.GraphSPARQL.Query.Filter"/> is called on.</param>
+            <param name="container">The <see cref="T:UIBK.GraphSPARQL.Types.SchemaContainer"/> that defines available <see cref="T:UIBK.GraphSPARQL.Types.SchemaField"/>s.</param>
+            <param name="expression">The filter <see cref="T:VDS.RDF.Query.Expressions.ISparqlExpression"/>.</param>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Query.Filter.ParentType">
+            <summary>
+            The <see cref="T:UIBK.GraphSPARQL.Types.SchemaType"/> of the <see cref="T:UIBK.GraphSPARQL.Query.Instance"/> that this <see cref="T:UIBK.GraphSPARQL.Query.Filter"/> is called on.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Query.Filter.Container">
+            <summary>
+            The <see cref="T:UIBK.GraphSPARQL.Types.SchemaContainer"/> that defines available <see cref="T:UIBK.GraphSPARQL.Types.SchemaField"/>s.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Query.Filter.Expression">
+            <summary>
+            The filter <see cref="T:VDS.RDF.Query.Expressions.ISparqlExpression"/>.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Query.Filter.Equals(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Query.Filter.GetHashCode">
+            <inheritdoc/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Query.Filter.op_Equality(UIBK.GraphSPARQL.Query.Filter,UIBK.GraphSPARQL.Query.Filter)">
+            <inheritdoc/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Query.Filter.op_Inequality(UIBK.GraphSPARQL.Query.Filter,UIBK.GraphSPARQL.Query.Filter)">
+            <inheritdoc/>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Query.Instance">
+            <summary>
+            Class describing a concrete typed resource.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Query.Instance.Parent">
+            <summary>
+            The parent <see cref="T:UIBK.GraphSPARQL.Query.Instance"/> or <c>null</c> if this is a top-level <see cref="T:UIBK.GraphSPARQL.Query.Instance"/>.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Query.Instance.Type">
+            <summary>
+            The <see cref="T:UIBK.GraphSPARQL.Types.SchemaType"/> of this <see cref="T:UIBK.GraphSPARQL.Query.Instance"/>.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Query.Instance.Iri">
+            <summary>
+            The resource <see cref="P:UIBK.GraphSPARQL.Query.Instance.Iri"/>.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Query.Instance.Equals(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Query.Instance.GetHashCode">
+            <inheritdoc/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Query.Instance.op_Equality(UIBK.GraphSPARQL.Query.Instance,UIBK.GraphSPARQL.Query.Instance)">
+            <inheritdoc/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Query.Instance.op_Inequality(UIBK.GraphSPARQL.Query.Instance,UIBK.GraphSPARQL.Query.Instance)">
+            <inheritdoc/>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Query.Predicate">
+            <summary>
+            Class that uniquely describes a predicate.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Query.Predicate.#ctor(UIBK.GraphSPARQL.Iri,UIBK.GraphSPARQL.DataSource.SparqlDataSource,UIBK.GraphSPARQL.Iri,System.Boolean,UIBK.GraphSPARQL.Query.Filter)">
+            <summary>
+            Creates a new <see cref="T:UIBK.GraphSPARQL.Query.Predicate"/>.
+            </summary>
+            <param name="iri">The predicate's <see cref="T:UIBK.GraphSPARQL.Iri"/>.</param>
+            <param name="dataSource">The <see cref="T:UIBK.GraphSPARQL.DataSource.SparqlDataSource"/> that contains the predicate.</param>
+            <param name="graphIri">The graph <see cref="T:UIBK.GraphSPARQL.Iri"/> that contains the predicate.</param>
+            <param name="inversed"><c>true</c> if the subject should be queried from a given object, <c>false</c> for the other way around.</param>
+            <param name="filter">The <see cref="P:UIBK.GraphSPARQL.Query.Predicate.Filter"/> to use or <c>null</c> to query the predicate unfiltered.</param>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Query.Predicate.#ctor(UIBK.GraphSPARQL.Query.Predicate,UIBK.GraphSPARQL.Query.Filter)">
+            <summary>
+            Creates a new <see cref="T:UIBK.GraphSPARQL.Query.Predicate"/> based on an existing one with a different <see cref="P:UIBK.GraphSPARQL.Query.Predicate.Filter"/>.
+            </summary>
+            <param name="predicate">The existing <see cref="T:UIBK.GraphSPARQL.Query.Predicate"/>.</param>
+            <param name="filter">The new <see cref="P:UIBK.GraphSPARQL.Query.Predicate.Filter"/> to use.</param>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Query.Predicate.Iri">
+            <summary>
+            The predicate's <see cref="T:UIBK.GraphSPARQL.Iri"/>.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Query.Predicate.DataSource">
+            <summary>
+            The <see cref="T:UIBK.GraphSPARQL.DataSource.SparqlDataSource"/> that contains the predicate.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Query.Predicate.GraphIri">
+            <summary>
+            The graph <see cref="T:UIBK.GraphSPARQL.Iri"/> that contains the predicate.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Query.Predicate.Inversed">
+            <summary>
+            <c>true</c> if the subject should be queried from a given object, <c>false</c> for the other way around.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Query.Predicate.Filter">
+            <summary>
+            Gets the <see cref="P:UIBK.GraphSPARQL.Query.Predicate.Filter"/> to use or <c>null</c> to query the predicate unfiltered.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Query.Predicate.Equals(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Query.Predicate.GetHashCode">
+            <inheritdoc/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Query.Predicate.op_Equality(UIBK.GraphSPARQL.Query.Predicate,UIBK.GraphSPARQL.Query.Predicate)">
+            <inheritdoc/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Query.Predicate.op_Inequality(UIBK.GraphSPARQL.Query.Predicate,UIBK.GraphSPARQL.Query.Predicate)">
+            <inheritdoc/>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Query.Request">
+            <summary>
+            Class that describes a RDF query.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Query.Request.#ctor(UIBK.GraphSPARQL.Iri,UIBK.GraphSPARQL.Query.Predicate,System.Boolean)">
+            <summary>
+            Creates a new <see cref="T:UIBK.GraphSPARQL.Query.Request"/>.
+            </summary>
+            <param name="subject">The subject's <see cref="T:UIBK.GraphSPARQL.Iri"/> of the requested triple.</param>
+            <param name="predicate">The <see cref="T:UIBK.GraphSPARQL.Query.Predicate"/> which can also include a <see cref="T:UIBK.GraphSPARQL.Query.Filter"/>.</param>
+            <param name="includeTypeInfo">Indicates whether the object's type <see cref="T:UIBK.GraphSPARQL.Iri"/>s should be returned.</param>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Query.Request.Subject">
+            <summary>
+            The subject's <see cref="T:UIBK.GraphSPARQL.Iri"/> of the requested triple.
+            </summary>
+            <remarks>If <see cref="P:UIBK.GraphSPARQL.Query.Predicate.Inversed"/> of <see cref="P:UIBK.GraphSPARQL.Query.Request.Predicate"/> is <c>true</c>, this is the object's <see cref="T:UIBK.GraphSPARQL.Iri"/>.</remarks>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Query.Request.Predicate">
+            <summary>
+            The <see cref="T:UIBK.GraphSPARQL.Query.Predicate"/> which can also include a <see cref="T:UIBK.GraphSPARQL.Query.Filter"/>.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Query.Request.IncludeTypeInfo">
+            <summary>
+            Indicates whether the object's type <see cref="T:UIBK.GraphSPARQL.Iri"/>s should be returned.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Query.Request.Equals(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Query.Request.GetHashCode">
+            <inheritdoc/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Query.Request.op_Equality(UIBK.GraphSPARQL.Query.Request,UIBK.GraphSPARQL.Query.Request)">
+            <inheritdoc/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Query.Request.op_Inequality(UIBK.GraphSPARQL.Query.Request,UIBK.GraphSPARQL.Query.Request)">
+            <inheritdoc/>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Query.Response">
+            <summary>
+            Class that represents a RDF result.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Query.Response.#ctor(VDS.RDF.INode,System.Collections.Generic.IEnumerable{UIBK.GraphSPARQL.Iri})">
+            <summary>
+            Creates a new <see cref="T:UIBK.GraphSPARQL.Query.Response"/>.
+            </summary>
+            <param name="object">The object's <see cref="T:VDS.RDF.INode"/>.</param>
+            <param name="types">The <paramref name="object"/>'s types <see cref="T:UIBK.GraphSPARQL.Iri"/>s.</param>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Query.Response.Object">
+            <summary>
+            The object's <see cref="T:VDS.RDF.INode"/>.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Query.Response.Types">
+            <summary>
+            The <see cref="P:UIBK.GraphSPARQL.Query.Response.Object"/>'s types <see cref="T:UIBK.GraphSPARQL.Iri"/>s.
+            </summary>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Types.SchemaContainer">
+            <summary>
+            Base class of all containers.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.SchemaContainer.JsonInitialize">
+            <summary>
+            Adds all fields from JSON.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.SchemaContainer.LinkedContainers">
+            <summary>
+            Enumerates all <see cref="T:UIBK.GraphSPARQL.Types.SchemaContainer"/>s that will also receive any added <see cref="T:UIBK.GraphSPARQL.Types.SchemaField"/>.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.SchemaContainer.Fields">
+            <summary>
+            Enumerates all <see cref="T:UIBK.GraphSPARQL.Types.SchemaField"/>s that this <see cref="T:UIBK.GraphSPARQL.Types.SchemaContainer"/> provides.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.SchemaContainer.FieldCount">
+            <summary>
+            Gets the number of <see cref="T:UIBK.GraphSPARQL.Types.SchemaField"/>s added to this <see cref="T:UIBK.GraphSPARQL.Types.SchemaContainer"/>.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.SchemaContainer.AddField(System.String,UIBK.GraphSPARQL.Types.SchemaType,UIBK.GraphSPARQL.Iri,UIBK.GraphSPARQL.DataSource.SparqlDataSource,System.Uri,System.Boolean,System.Boolean,System.String)">
+            <summary>
+            Creates and adds a new <see cref="T:UIBK.GraphSPARQL.Types.SchemaField"/> returning a <see cref="T:UIBK.GraphSPARQL.Types.SchemaType"/> to this <see cref="T:UIBK.GraphSPARQL.Types.SchemaContainer"/>.
+            </summary>
+            <param name="name">The name of the <see cref="T:UIBK.GraphSPARQL.Types.SchemaField"/>.</param>
+            <param name="type">The <see cref="T:UIBK.GraphSPARQL.Types.SchemaType"/> the field returns.</param>
+            <param name="predicateIri">The underlying predicate's <see cref="T:UIBK.GraphSPARQL.Iri"/>.</param>
+            <param name="dataSource">The underlying <see cref="T:UIBK.GraphSPARQL.DataSource.SparqlDataSource"/> or <c>null</c> to use the default one.</param>
+            <param name="graphUri">The underlying graph <see cref="T:System.Uri"/> or <c>null</c> to use the default one.</param>
+            <param name="isArray">If <c>true</c>, the field returns a list of objects.</param>
+            <param name="isRequired">If <c>true</c>, the parent object is only returned if an object exists.</param>
+            <param name="filter">An optional filter <see cref="T:System.String"/> that is passed to the data source.</param>
+            <returns>The current <see cref="T:UIBK.GraphSPARQL.Types.SchemaContainer"/>.</returns>
+            <exception cref="T:System.ArgumentException">If another <see cref="T:UIBK.GraphSPARQL.Types.SchemaField"/> with the same <paramref name="name"/> already exists, either in this container or an associated one, <paramref name="name"/> contains invalid characters or <paramref name="filter"/> cannot be parsed.</exception>
+            <exception cref="T:System.InvalidOperationException">If the <paramref name="type"/> belongs to a different schema.</exception>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.SchemaContainer.AddField(System.String,UIBK.GraphSPARQL.Types.SchemaInterface,UIBK.GraphSPARQL.Iri,UIBK.GraphSPARQL.DataSource.SparqlDataSource,System.Uri,System.Boolean,System.Boolean,System.String)">
+            <summary>
+            Creates and adds a new <see cref="T:UIBK.GraphSPARQL.Types.SchemaField"/> returning a <see cref="T:UIBK.GraphSPARQL.Types.SchemaInterface"/> to this <see cref="T:UIBK.GraphSPARQL.Types.SchemaContainer"/>.
+            </summary>
+            <param name="name">The name of the <see cref="T:UIBK.GraphSPARQL.Types.SchemaField"/>.</param>
+            <param name="interface">The <see cref="T:UIBK.GraphSPARQL.Types.SchemaInterface"/> the field returns.</param>
+            <param name="predicateIri">The underlying predicate's <see cref="T:UIBK.GraphSPARQL.Iri"/>.</param>
+            <param name="dataSource">The underlying <see cref="T:UIBK.GraphSPARQL.DataSource.SparqlDataSource"/> or <c>null</c> to use the default one.</param>
+            <param name="graphUri">The underlying graph <see cref="T:System.Uri"/> or <c>null</c> to use the default one.</param>
+            <param name="isArray">If <c>true</c>, the field returns a list of objects.</param>
+            <param name="isRequired">If <c>true</c>, the parent object is only returned if an object exists.</param>
+            <param name="filter">An optional filter <see cref="T:System.String"/> that is passed to the data source.</param>
+            <returns>The current <see cref="T:UIBK.GraphSPARQL.Types.SchemaContainer"/>.</returns>
+            <exception cref="T:System.ArgumentException">If another <see cref="T:UIBK.GraphSPARQL.Types.SchemaField"/> with the same <paramref name="name"/> already exists, either in this container or an associated one, <paramref name="name"/> contains invalid characters or <paramref name="filter"/> cannot be parsed.</exception>
+            <exception cref="T:System.InvalidOperationException">If the <paramref name="interface"/> belongs to a different schema.</exception>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.SchemaContainer.AddField(System.String,UIBK.GraphSPARQL.Types.SchemaUnion,UIBK.GraphSPARQL.Iri,UIBK.GraphSPARQL.DataSource.SparqlDataSource,System.Uri,System.Boolean,System.Boolean,System.String)">
+            <summary>
+            Creates and adds a new <see cref="T:UIBK.GraphSPARQL.Types.SchemaField"/> returning a <see cref="T:UIBK.GraphSPARQL.Types.SchemaUnion"/> to this <see cref="T:UIBK.GraphSPARQL.Types.SchemaContainer"/>.
+            </summary>
+            <param name="name">The name of the <see cref="T:UIBK.GraphSPARQL.Types.SchemaField"/>.</param>
+            <param name="union">The <see cref="T:UIBK.GraphSPARQL.Types.SchemaUnion"/> the field returns.</param>
+            <param name="predicateIri">The underlying predicate's <see cref="T:UIBK.GraphSPARQL.Iri"/>.</param>
+            <param name="dataSource">The underlying <see cref="T:UIBK.GraphSPARQL.DataSource.SparqlDataSource"/> or <c>null</c> to use the default one.</param>
+            <param name="graphUri">The underlying graph <see cref="T:System.Uri"/> or <c>null</c> to use the default one.</param>
+            <param name="isArray">If <c>true</c>, the field returns a list of objects.</param>
+            <param name="isRequired">If <c>true</c>, the parent object is only returned if an object exists.</param>
+            <param name="filter">An optional filter <see cref="T:System.String"/> that is passed to the data source.</param>
+            <returns>The current <see cref="T:UIBK.GraphSPARQL.Types.SchemaContainer"/>.</returns>
+            <exception cref="T:System.ArgumentException">If another <see cref="T:UIBK.GraphSPARQL.Types.SchemaField"/> with the same <paramref name="name"/> already exists, either in this container or an associated one, <paramref name="name"/> contains invalid characters or <paramref name="filter"/> cannot be parsed.</exception>
+            <exception cref="T:System.InvalidOperationException">If the <paramref name="union"/> belongs to a different schema.</exception>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.SchemaContainer.ContainsField(System.String)">
+            <summary>
+            Checks if the <see cref="T:UIBK.GraphSPARQL.Types.SchemaContainer"/> contains a <see cref="T:UIBK.GraphSPARQL.Types.SchemaField"/> with a given name.
+            </summary>
+            <param name="name">The name of a <see cref="T:UIBK.GraphSPARQL.Types.SchemaField"/> to check.</param>
+            <returns><c>true</c> if a <see cref="T:UIBK.GraphSPARQL.Types.SchemaField"/> with the given <paramref name="name"/> has been added, <c>falce</c> otherwise.</returns>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.SchemaContainer.TryGetField(System.String,UIBK.GraphSPARQL.Types.SchemaField@)">
+            <summary>
+            Tries to find and return an added <see cref="T:UIBK.GraphSPARQL.Types.SchemaField"/> by name.
+            </summary>
+            <param name="name">The name of the <see cref="T:UIBK.GraphSPARQL.Types.SchemaField"/>.</param>
+            <param name="field">The found <see cref="T:UIBK.GraphSPARQL.Types.SchemaField"/>.</param>
+            <returns><c>true</c> if the <see cref="T:UIBK.GraphSPARQL.Types.SchemaField"/> with the given <paramref name="name"/> has been found, <c>falce</c> otherwise.</returns>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Types.SchemaContainer`1">
+            <summary>
+            Base class of <see cref="T:UIBK.GraphSPARQL.Types.SchemaType"/>, <see cref="T:UIBK.GraphSPARQL.Types.SchemaInterface"/>, <see cref="T:UIBK.GraphSPARQL.Types.SchemaQuery"/> and <see cref="T:UIBK.GraphSPARQL.Types.SchemaMutation"/>.
+            </summary>
+            <typeparam name="T">The type of the <see cref="P:UIBK.GraphSPARQL.Types.SchemaTypeElement.QueryType"/>.</typeparam>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.SchemaContainer`1.QueryType">
+            <inheritdoc/>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Types.SchemaRootContainer">
+            <summary>
+            Base class of <see cref="T:UIBK.GraphSPARQL.Types.SchemaQuery"/> and <see cref="T:UIBK.GraphSPARQL.Types.SchemaMutation"/>.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.SchemaRootContainer.Name">
+            <inheritdoc/>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Types.SchemaObjectContainer`1">
+            <summary>
+            Base class of <see cref="T:UIBK.GraphSPARQL.Types.SchemaType"/> and <see cref="T:UIBK.GraphSPARQL.Types.SchemaInterface"/>.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.SchemaObjectContainer`1.AddField(System.String,UIBK.GraphSPARQL.Types.SchemaScalar,UIBK.GraphSPARQL.Iri,UIBK.GraphSPARQL.DataSource.SparqlDataSource,System.Uri,System.Boolean,System.Boolean,System.String)">
+            <summary>
+            Adds a new scalar field to this container.
+            </summary>
+            <param name="name">The name of field.</param>
+            <param name="scalar">The <see cref="T:UIBK.GraphSPARQL.Types.SchemaScalar"/> the field returns.</param>
+            <param name="predicateIri">The underlying predicate's <see cref="T:UIBK.GraphSPARQL.Iri"/>.</param>
+            <param name="dataSource">The underlying data source or <c>null</c> to use the default one.</param>
+            <param name="graphUri">The underlying graph <see cref="T:System.Uri"/> or <c>null</c> to use the default one.</param>
+            <param name="isArray">If <c>true</c>, the field returns a list of scalars.</param>
+            <param name="isRequired">If <c>true</c>, the parent object is only returned if a scalar exists.</param>
+            <param name="filter">An optional filter that is passed to the data source.</param>
+            <returns>The current <see cref="T:UIBK.GraphSPARQL.Types.SchemaContainer"/>.</returns>
+            <exception cref="T:System.ArgumentException">If another field with the same <paramref name="name"/> already exists, either in this container or an associated one, <paramref name="name"/> contains invalid characters or <paramref name="filter"/> cannot be parsed.</exception>
+            <exception cref="T:System.InvalidOperationException">If the <paramref name="scalar"/> belongs to a different schema.</exception>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Types.SchemaQuery">
+            <summary>
+            Class providing the entry point for registering queryable data.
+            </summary>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Types.SchemaMutation">
+            <summary>
+            Class providing the entry point for registering mutatable data.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.SchemaMutation.AddCreateField(System.String,UIBK.GraphSPARQL.Types.SchemaType,UIBK.GraphSPARQL.DataSource.SparqlDataSource,System.Uri,System.Boolean,System.String)">
+            <summary>
+            Adds a new field that allows to create a new instance of a <see cref="T:UIBK.GraphSPARQL.Types.SchemaType"/>.
+            </summary>
+            <param name="name">The name of <see cref="T:UIBK.GraphSPARQL.Types.SchemaField"/>.</param>
+            <param name="type">The <see cref="T:UIBK.GraphSPARQL.Types.SchemaType"/> to create.</param>
+            <param name="dataSource">The underlying <see cref="T:UIBK.GraphSPARQL.DataSource.SparqlDataSource"/> or <c>null</c> to use the default one.</param>
+            <param name="graphUri">The underlying graph <see cref="T:System.Uri"/> or <c>null</c> to use the default one.</param>
+            <param name="isArray">If <c>true</c>, multiple instances can be created at once.</param>
+            <param name="filter">An optional filter that used to check the instance before creation.</param>
+            <returns>The current <see cref="T:UIBK.GraphSPARQL.Types.SchemaMutation"/>.</returns>
+            <exception cref="T:System.ArgumentException">If another field with the same <paramref name="name"/> already exists, <paramref name="name"/> contains invalid characters or <paramref name="filter"/> cannot be parsed.</exception>
+            <exception cref="T:System.InvalidOperationException">If the <paramref name="type"/> belongs to a different schema.</exception>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Types.SchemaInterface">
+            <summary>
+            Class describing a named interface in GraphQL.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.SchemaInterface.LinkedContainers">
+            <inheritdoc/>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Types.SchemaType">
+            <summary>
+            Class describing a named type in GraphQL.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.SchemaType.JsonInitialize">
+            <summary>
+            Generates the IRI if necessary and initializes the class.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.SchemaType.ClassIri">
+            <summary>
+            Gets or sets the IRI of the underlying class.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.SchemaType.Interfaces">
+            <summary>
+            Enumerates all interfaces this type inherits from.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.SchemaType.MutationType">
+            <summary>
+            Gets the <see cref="T:GraphQL.Types.InputObjectGraphType"/> used for creating instances.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.SchemaType.NonNullMutationType">
+            <summary>
+            Gets the <see cref="T:GraphQL.Types.InputObjectGraphType"/> used for creating instances wrapped in a <see cref="T:GraphQL.Types.NonNullGraphType"/>.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.SchemaType.AddInterface(UIBK.GraphSPARQL.Types.SchemaInterface)">
+            <summary>
+            Declares that the type inherits from a given interface.
+            </summary>
+            <param name="interface">The <see cref="T:UIBK.GraphSPARQL.Types.SchemaInterface"/> that this type should inherit from.</param>
+            <returns>This current <see cref="T:UIBK.GraphSPARQL.Types.SchemaType"/>.</returns>
+            <exception cref="T:System.ArgumentException">Another type with the same <see cref="P:UIBK.GraphSPARQL.Types.SchemaType.ClassIri"/> already inherits from the <paramref name="interface"/>.</exception>
+            <exception cref="T:System.InvalidOperationException">If the <paramref name="interface"/> belongs to a different schema.</exception>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.SchemaType.TryGetInterface(System.String,UIBK.GraphSPARQL.Types.SchemaInterface@)">
+            <summary>
+            Tries to find and return an added <see cref="T:UIBK.GraphSPARQL.Types.SchemaInterface"/> by name.
+            </summary>
+            <param name="name">The name of the <see cref="T:UIBK.GraphSPARQL.Types.SchemaInterface"/>.</param>
+            <param name="interface">The found <see cref="T:UIBK.GraphSPARQL.Types.SchemaInterface"/>.</param>
+            <returns><c>true</c> if the <see cref="T:UIBK.GraphSPARQL.Types.SchemaInterface"/> with the given <paramref name="name"/> has been found, <c>falce</c> otherwise.</returns>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.SchemaType.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Types.SchemaUnion">
+            <summary>
+            Class describing a named union in GraphQL.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.SchemaUnion.QueryType">
+            <inheritdoc/>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.SchemaUnion.Types">
+            <summary>
+            Enumerates all types that belong to the union.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.SchemaUnion.AddType(UIBK.GraphSPARQL.Types.SchemaType)">
+            <summary>
+            Declares a given type to be contained in this union.
+            </summary>
+            <param name="type">The <see cref="T:UIBK.GraphSPARQL.Types.SchemaType"/> to add to this union.</param>
+            <returns>The current <see cref="T:UIBK.GraphSPARQL.Types.SchemaUnion"/>.</returns>
+            <exception cref="T:System.ArgumentException">Another type with the same <see cref="P:UIBK.GraphSPARQL.Types.SchemaType.ClassIri"/> has already been added.</exception>
+            <exception cref="T:System.InvalidOperationException">If the <paramref name="type"/> belongs to a different schema.</exception>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.SchemaUnion.TryGetType(System.String,UIBK.GraphSPARQL.Types.SchemaType@)">
+            <summary>
+            Tries to find and return an added <see cref="T:UIBK.GraphSPARQL.Types.SchemaType"/> by name.
+            </summary>
+            <param name="name">The name of the <see cref="T:UIBK.GraphSPARQL.Types.SchemaType"/>.</param>
+            <param name="type">The found <see cref="T:UIBK.GraphSPARQL.Types.SchemaType"/>.</param>
+            <returns><c>true</c> if the <see cref="T:UIBK.GraphSPARQL.Types.SchemaType"/> with the given <paramref name="name"/> has been found, <c>falce</c> otherwise.</returns>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Types.SchemaElement">
+            <summary>
+            Base class for every schema element.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.SchemaElement.Name">
+            <summary>
+            Gets the element's name.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.SchemaElement.ToString">
+            <summary>
+            Returns a string describing the type and name of this element.
+            </summary>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Types.SchemaTypeElement">
+            <summary>
+            Base class of all named elements in a GraphQL schema.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.SchemaTypeElement.JsonInitialize">
+            <summary>
+            Initializes <see cref="P:UIBK.GraphSPARQL.Types.SchemaTypeElement.QueryType"/> from JSON.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.SchemaTypeElement.MergeTarget">
+            <summary>
+            If not <c>null</c>, addition of components must be forwarded to the target.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.SchemaTypeElement.QueryType">
+            <summary>
+            Gets the GraphQL type used for querying.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.SchemaTypeElement.NonNullQueryType">
+            <summary>
+            Gets the GraphQL type used for querying wrapped in a <see cref="T:GraphQL.Types.NonNullGraphType"/>.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.SchemaTypeElement.ListQueryType">
+            <summary>
+            Gets the GraphQL type used for querying wrapped in a <see cref="T:GraphQL.Types.ListGraphType"/>.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.SchemaTypeElement.NonNullListQueryType">
+            <summary>
+            Gets the GraphQL type used for querying wrapped in a <see cref="T:GraphQL.Types.ListGraphType"/>, which in is wrapped in a <see cref="T:GraphQL.Types.NonNullGraphType"/>.
+            </summary>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Types.SchemaFieldType">
+            <summary>
+            Enum that indicates the return type of a <see cref="T:UIBK.GraphSPARQL.Types.SchemaField"/>.
+            </summary>
+        </member>
+        <member name="F:UIBK.GraphSPARQL.Types.SchemaFieldType.Object">
+            <summary>
+            The <see cref="T:UIBK.GraphSPARQL.Types.SchemaField"/> return an <see cref="T:UIBK.GraphSPARQL.Types.SchemaInterface"/>, <see cref="T:UIBK.GraphSPARQL.Types.SchemaType"/> or <see cref="T:UIBK.GraphSPARQL.Types.SchemaUnion"/>.
+            </summary>
+        </member>
+        <member name="F:UIBK.GraphSPARQL.Types.SchemaFieldType.Scalar">
+            <summary>
+            The <see cref="T:UIBK.GraphSPARQL.Types.SchemaField"/> return an <see cref="T:UIBK.GraphSPARQL.Types.SchemaScalar"/>.
+            </summary>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Types.SchemaField">
+            <summary>
+            Class for all fields in the schema.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.SchemaField.JsonInitialize">
+            <inheritdoc/>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.SchemaField.DataSource">
+            <summary>
+            Gets the data source.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.SchemaField.Filter">
+            <summary>
+            Sets an optional filter that is passed to the data source.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.SchemaField.GraphUri">
+            <summary>
+            Gets the source graph URI.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.SchemaField.IsArray">
+            <summary>
+            Gets or sets whether this field returns an array.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.SchemaField.IsRequired">
+            <summary>
+            Indicates whether the field is optional or required.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.SchemaField.PredicateIri">
+            <summary>
+            Gets the <see cref="T:UIBK.GraphSPARQL.Iri"/> of the underlying predicate.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.SchemaField.Type">
+            <summary>
+            Gets the <see cref="T:UIBK.GraphSPARQL.Types.SchemaFieldType"/> of this <see cref="T:UIBK.GraphSPARQL.Types.SchemaField"/>;
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.SchemaField.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Types.Providers.RdfHarvester">
+            <summary>
+            Class that parses RDFS and OWL files, also supporting schema.org classes.
+            </summary>
+        </member>
+        <member name="F:UIBK.GraphSPARQL.Types.Providers.RdfHarvester.AnyInterfaceName">
+            <summary>
+            Constant name of the interface used for harvesting properties without domains or ranges.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfHarvester.Location">
+            <summary>
+            Returns the source file's location.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfHarvester.Namespaces">
+            <summary>
+            Gets all defined namespaces.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfHarvester.Graph">
+            <summary>
+            Gets the underlying RDF graph.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfHarvester.Schema">
+            <summary>
+            Gets the <see cref="P:UIBK.GraphSPARQL.Types.Providers.RdfHarvester.Schema"/> that will be filled.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfHarvester.ClassNodes">
+            <summary>
+            Gets the following nodes if present: rdfs:Class, owl:Class
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfHarvester.DataTypeNodes">
+            <summary>
+            Gets the following nodes if present: rdfs:Datatype, schema:DataType
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfHarvester.DataTypePropertyNodes">
+            <summary>
+            Gets the following nodes if present: owl:DatatypeProperty
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfHarvester.DomainNodes">
+            <summary>
+            Gets the following nodes if present: rdfs:domain, schema:domainIncludes
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfHarvester.PropertyNodes">
+            <summary>
+            Gets the following nodes if present: rdfs:Property, owl:*Property
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfHarvester.RangeNodes">
+            <summary>
+            Gets the following nodes if present: rdfs:range, schema:rangeIncludes
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfHarvester.SubClassOf">
+            <summary>
+            Gets the following node if present: rdfs:subClassOf
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfHarvester.SubPropertyOf">
+            <summary>
+            Gets the following node if present: rdfs:subPropertyOf
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfHarvester.Type">
+            <summary>
+            Gets the following node: rdf:type
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfHarvester.Types">
+            <summary>
+            Enumerates all <see cref="T:UIBK.GraphSPARQL.Types.Providers.RdfType"/> in a namespace.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfHarvester.Properties">
+            <summary>
+            Enumerates all <see cref="T:UIBK.GraphSPARQL.Types.Providers.RdfProperty"/> that are harvested in a namespace.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.Providers.RdfHarvester.Harvest">
+            <summary>
+            Harvest the RDF schema.
+            </summary>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Types.Providers.RdfElement">
+            <summary>
+            Base class for RDF types and attributes.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfElement.AllowDeclaration">
+            <summary>
+            Indicates whether this element can be harvested.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfElement.Harvester">
+            <summary>
+            Returns the harvester associated with this element.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfElement.Iri">
+            <summary>
+            Returns the node's IRI.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfElement.IsDataType">
+            <summary>
+            Indicates whether this element is a datatype.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfElement.NameForFields">
+            <summary>
+            Gets the element's name if used in schema fields.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">If the element has no matching namespace.</exception>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfElement.NameForInterfaces">
+            <summary>
+            Gets the element's name if used in schema interfaces.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">If the element has no matching namespace.</exception>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfElement.NameForTypes">
+            <summary>
+            Gets the element's name if used in schema types, unions or named scalars.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">If the element has no matching namespace.</exception>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfElement.Namespace">
+            <summary>
+            Returns the namespace the element belongs to.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">If the element has no matching namespace.</exception>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfElement.Node">
+            <summary>
+            Get the underlying graph node.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.Providers.RdfElement.HarvestError(System.String)">
+            <summary>
+            Constructs a new harvest error exception.
+            </summary>
+            <param name="message">The error message.</param>
+            <returns>A new error object instance.</returns>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Types.Providers.RdfType">
+            <summary>
+            Class that describes a rdfs:Class, owl:Class, rdfs:Datatype or schema:DataType.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfType.AllowDeclaration">
+            <inheritdoc/>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfType.BaseClasses">
+            <summary>
+            Enumerates all base classes as <see cref="T:UIBK.GraphSPARQL.Types.Providers.RdfType"/>.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfType.IsDataType">
+            <inheritdoc/>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Types.Providers.RdfProperty">
+            <summary>
+            Class that describes a rdfs:Property or owl:*Property.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfProperty.AllowDeclaration">
+            <inheritdoc/>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfProperty.BaseProperties">
+            <summary>
+            Enumerates all base properties as <see cref="T:UIBK.GraphSPARQL.Types.Providers.RdfProperty"/>.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfProperty.Domains">
+            <summary>
+            Returns all <see cref="T:UIBK.GraphSPARQL.Types.Providers.RdfType"/> that are a subject of the property.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfProperty.IsDataType">
+            <inheritdoc/>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfProperty.NameForRanges">
+            <summary>
+            Gets the properties's name if used in ranges unions.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfProperty.Ranges">
+            <summary>
+            Returns all <see cref="T:UIBK.GraphSPARQL.Types.Providers.RdfType"/> that are an object of the property.
+            </summary>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Types.Providers.RdfNamespace">
+            <summary>
+            Class containing per-namespace settings for the RDF harvester.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfNamespace.Prefix">
+            <summary>
+            Gets the prefix that should be prepended to all named schema elements.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfNamespace.Uri">
+            <summary>
+            Gets the namespace's URI.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfNamespace.DataSource">
+            <summary>
+            Gets the data source or <c>null</c> if the default one should be used.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfNamespace.GraphUri">
+            <summary>
+            Gets the default graph URI.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfNamespace.RegisterQuery">
+            <summary>
+            Indicates whether all harvested classes should be queryable.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfNamespace.RegisterCreate">
+            <summary>
+            Indicates whether all harvested classes should be createable.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfNamespace.RegisterUpdate">
+            <summary>
+            Indicates whether all harvested classes should be updateable.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfNamespace.UseInterfaceIfPossible">
+            <summary>
+            Indicates whether <see cref="T:UIBK.GraphSPARQL.Types.SchemaInterface"/> should be used rather than <see cref="T:UIBK.GraphSPARQL.Types.SchemaType"/> if possible.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfNamespace.IncludeClasses">
+            <summary>
+            Indicates whether classes should be harvested.
+            If <c>false</c> and <see cref="P:UIBK.GraphSPARQL.Types.Providers.RdfNamespace.IncludeProperties"/> is <c>true</c>, only properties
+            referencing previously defined classes are harvested.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfNamespace.ExcludeUnusedClasses">
+            <summary>
+            Indicates whether a <see cref="T:UIBK.GraphSPARQL.Types.Providers.RdfType"/> that represents a class that has not
+            been referenced by any harvested <see cref="T:UIBK.GraphSPARQL.Types.Providers.RdfProperty"/> should be ignored.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfNamespace.IncludeDataTypes">
+            <summary>
+            Indicates whether data types should be harvested.
+            If <c>false</c> and <see cref="P:UIBK.GraphSPARQL.Types.Providers.RdfNamespace.IncludeProperties"/> is <c>true</c>, only properties
+            referencing previously defined or known data types are harvested.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfNamespace.ExcludeUnusedDataTypes">
+            <summary>
+            Indicates whether a <see cref="T:UIBK.GraphSPARQL.Types.Providers.RdfType"/> that represents a data type that has not
+            been referenced by any harvested <see cref="T:UIBK.GraphSPARQL.Types.Providers.RdfProperty"/> should be ignored.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfNamespace.IncludeProperties">
+            <summary>
+            Indicates whether <see cref="T:UIBK.GraphSPARQL.Types.Providers.RdfProperty"/> should be harvested.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfNamespace.ExcludePropertiesWithoutDomain">
+            <summary>
+            Indicates whether a <see cref="T:UIBK.GraphSPARQL.Types.Providers.RdfProperty"/> with an empty domain should be ignored.
+            If <c>false</c>, the <see cref="T:UIBK.GraphSPARQL.Types.Providers.RdfProperty"/> gets harvested under the <c>IAny</c>
+            interface that every other <see cref="T:UIBK.GraphSPARQL.Types.SchemaType"/> inherits from.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Providers.RdfNamespace.ExcludePropertiesWithoutRange">
+            <summary>
+            Indicates whether a <see cref="T:UIBK.GraphSPARQL.Types.Providers.RdfProperty"/> with an empty range should be ignored.
+            If <c>false</c>, the <see cref="T:UIBK.GraphSPARQL.Types.Providers.RdfProperty"/> gets harvested as returning either the
+            <c>IAny</c> interface or a custom scalar with an <c>any</c> data type IRI.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.Providers.RdfProvider.FillSchema(UIBK.GraphSPARQL.Types.Schema)">
+            <inheritdoc/>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Types.SchemaScalar">
+            <summary>
+            Base class for all enums, built-in and custom scalars.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.SchemaScalar.PlainLiteralDataTypeIri">
+            <summary>
+            Gets an <see cref="T:UIBK.GraphSPARQL.Iri"/> that indicates if no underlying data type should be specified.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.SchemaScalar.LangStringDataTypeIri">
+            <summary>
+            Gets an <see cref="T:UIBK.GraphSPARQL.Iri"/> that indicates if a custom scalar can get and set language strings. 
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.SchemaScalar.IriDataTypeIri">
+            <summary>
+            Gets an <see cref="T:UIBK.GraphSPARQL.Iri"/> that indicates if a custom scalar can get or set resource IRIs.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.SchemaScalar.Boolean(UIBK.GraphSPARQL.Iri,System.String)">
+            <summary>
+            Defines a new boolean scalar.
+            </summary>
+            <param name="dataTypeIri">The underlying data type IRI.</param>
+            <param name="format"><c>"c"</c> to format the boolean as <c>"yes"</c>/<c>"no"</c>, <c>"b"</c> to format the boolean as <c>"true"</c>/<c>"false"</c> or <c>"n"</c> to format the boolean as <c>"1"</c>/<c>"0"</c>.</param>
+            <returns>A <see cref="T:UIBK.GraphSPARQL.Types.SchemaScalar"/> describing a boolean.</returns>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.SchemaScalar.String(UIBK.GraphSPARQL.Iri)">
+            <summary>
+            Defines a new string scalar.
+            </summary>
+            <param name="dataTypeIri">The underlying data type IRI.</param>
+            <returns>A <see cref="T:UIBK.GraphSPARQL.Types.SchemaScalar"/> describing a string.</returns>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.SchemaScalar.Int(UIBK.GraphSPARQL.Iri,System.String)">
+            <summary>
+            Defines a new int scalar.
+            </summary>
+            <param name="dataTypeIri">The underlying data type IRI.</param>
+            <param name="format">The formatting string to use when serializing the int, see <see cref="M:System.Int32.ToString(System.String)"/>.</param>
+            <returns>A <see cref="T:UIBK.GraphSPARQL.Types.SchemaScalar"/> describing an int.</returns>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.SchemaScalar.Float(UIBK.GraphSPARQL.Iri,System.String)">
+            <summary>
+            Defines a new float scalar.
+            </summary>
+            <param name="dataTypeIri">The underlying data type IRI.</param>
+            <param name="format">The formatting string to use when serializing the float, see <see cref="M:System.Single.ToString(System.String)"/>.</param>
+            <returns>A <see cref="T:UIBK.GraphSPARQL.Types.SchemaScalar"/> describing a float.</returns>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.SchemaScalar.Id">
+            <summary>
+            Defines a new ID, which is a resource IRI.
+            </summary>
+            <returns>A <see cref="T:UIBK.GraphSPARQL.Types.SchemaScalar"/> describing an ID.</returns>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.SchemaScalar.Duration(UIBK.GraphSPARQL.Iri)">
+            <summary>
+            Defines a new duration scalar.
+            </summary>
+            <param name="dataTypeIri">The underlying data type IRI.</param>
+            <returns>A <see cref="T:UIBK.GraphSPARQL.Types.SchemaScalar"/> describing a duration.</returns>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.SchemaScalar.Date(UIBK.GraphSPARQL.Iri,System.String)">
+            <summary>
+            Defines a new date-only scalar.
+            </summary>
+            <param name="dataTypeIri">The underlying data type IRI.</param>
+            <param name="format">The formatting string to use when serializing the date, see <see cref="M:System.DateTime.ToString(System.String)"/>.</param>
+            <returns>A <see cref="T:UIBK.GraphSPARQL.Types.SchemaScalar"/> describing date.</returns>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.SchemaScalar.Time(UIBK.GraphSPARQL.Iri,System.String)">
+            <summary>
+            Defines a new time-only scalar.
+            </summary>
+            <param name="dataTypeIri">The underlying data type IRI.</param>
+            <param name="format">The formatting string to use on serializing the time, see <see cref="M:System.DateTime.ToString(System.String)"/>.</param>
+            <returns>A <see cref="T:UIBK.GraphSPARQL.Types.SchemaScalar"/> describing time.</returns>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.SchemaScalar.DateTime(UIBK.GraphSPARQL.Iri,System.String)">
+            <summary>
+            Defines a new date and time scalar.
+            </summary>
+            <param name="dataTypeIri">The underlying data type IRI.</param>
+            <param name="format">The formatting string to use on serializing the date and time, see <see cref="M:System.DateTime.ToString(System.String)"/>.</param>
+            <returns>A <see cref="T:UIBK.GraphSPARQL.Types.SchemaScalar"/> describing date and time.</returns>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.SchemaScalar.LanguageString(System.String)">
+            <summary>
+            Defines a new language string scalar.
+            </summary>
+            <param name="format">The default locale or <c>null</c> to use the thread's current culture.</param>
+            <returns>A <see cref="T:UIBK.GraphSPARQL.Types.SchemaScalar"/> describing a language string.</returns>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Types.SchemaTypedScalar">
+            <summary>
+            Base class for all non-enum scalars.
+            </summary>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Types.SchemaCustomScalar">
+            <summary>
+            Class describing a non-built-in scalar.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.SchemaCustomScalar.DataTypeIris">
+            <summary>
+            Enumerates all sub scalars.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.SchemaCustomScalar.AddDataType(UIBK.GraphSPARQL.Iri)">
+            <summary>
+            Adds another allowed data type <see cref="T:UIBK.GraphSPARQL.Iri"/> to the list of possible values.
+            </summary>
+            <param name="dataTypeIri">The data type's <see cref="T:UIBK.GraphSPARQL.Iri"/> to add.</param>
+            <returns>The current <see cref="T:UIBK.GraphSPARQL.Types.SchemaCustomScalar"/>.</returns>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Types.SchemaEnum">
+            <summary>
+            Class that describes an enumeration.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.SchemaEnum.DataTypeIri">
+            <summary>
+            Gets the underlying data type.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.SchemaEnum.ValueNames">
+            <summary>
+            Gets the name of all values.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.SchemaEnum.Values">
+            <summary>
+            Gets all values.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.SchemaEnum.AddValue(System.String,System.String)">
+            <summary>
+            Registers a value for a given name.
+            </summary>
+            <param name="name">The value's name. This is what GraphQL uses.</param>
+            <param name="value">The value send to SPARQL.</param>
+            <returns>The current <see cref="T:UIBK.GraphSPARQL.Types.SchemaEnum"/>.</returns>
+            <exception cref="T:System.ArgumentException">If another entry with the given <paramref name="name"/> or <paramref name="value"/> has already been defined.</exception>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.SchemaEnum.TryGetValueName(System.String,System.String@)">
+            <summary>
+            Tries to find an entry by value and return its name.
+            </summary>
+            <param name="value">The entry's value.</param>
+            <param name="name">The found entry's name.</param>
+            <returns><c>true</c> if an with the given <paramref name="value"/> has been found, <c>falce</c> otherwise.</returns>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.SchemaEnum.TryGetValue(System.String,System.String@)">
+            <summary>
+            Tries to find an entry by name and return its value.
+            </summary>
+            <param name="name">The entry's name.</param>
+            <param name="value">The found entry's value.</param>
+            <returns><c>true</c> if an with the given <paramref name="name"/> has been found, <c>falce</c> otherwise.</returns>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.SchemaEnum.ToString">
+            <inheritdoc/>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Types.ISchemaProvider">
+            <summary>
+            Interface for schema providers.
+            </summary>
+            <remarks>Inherit from <see cref="T:UIBK.GraphSPARQL.Configuration.JsonElement"/> as well if want your provider settings to be deserialized from the main configuration file.</remarks>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.ISchemaProvider.FillSchema(UIBK.GraphSPARQL.Types.Schema)">
+            <summary>
+            Populates the given schema with additional elements.
+            </summary>
+            <param name="schema">The <see cref="T:UIBK.GraphSPARQL.Types.Schema"/> to populate, which may or may not be empty.</param>
+        </member>
+        <member name="T:UIBK.GraphSPARQL.Types.Schema">
+            <summary>
+            Root class describing the GraphQL schema.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Schema.BuiltinScalars">
+            <summary>
+            Gets a read-only dictionary mapping names to build-in scalars with default data type IRI and formatting.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.Schema.#ctor">
+            <inheritdoc cref="M:GraphQL.Types.Schema.#ctor"/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.Schema.#ctor(System.IServiceProvider)">
+            <inheritdoc cref="M:GraphQL.Types.Schema.#ctor(System.IServiceProvider)"/>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Schema.DataSources">
+            <summary>
+            Return a collection of all available <see cref="T:UIBK.GraphSPARQL.DataSource.SparqlDataSource"/>s.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Schema.Directives">
+            <inheritdoc/>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Schema.Elements">
+            <summary>
+            Enumerates all <see cref="T:UIBK.GraphSPARQL.Types.SchemaElement"/>s within the <see cref="T:UIBK.GraphSPARQL.Types.Schema"/>.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Schema.Initialized">
+            <inheritdoc/>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Schema.NameConverter">
+            <inheritdoc/>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.Schema.Configure(System.String)">
+            <summary>
+            Parses a given configuration file.
+            </summary>
+            <param name="fileName">The path to the configuration file.</param>
+            <returns>The current <see cref="T:UIBK.GraphSPARQL.Types.Schema"/>.</returns>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.Schema.TryGetElement(System.String,UIBK.GraphSPARQL.Types.SchemaTypeElement@)">
+            <summary>
+            Tries to find a <see cref="T:UIBK.GraphSPARQL.Types.SchemaElement"/> with a given name.
+            </summary>
+            <param name="name">The name of the <see cref="T:UIBK.GraphSPARQL.Types.SchemaTypeElement"/> to retrieve.</param>
+            <param name="element">The matching <see cref="T:UIBK.GraphSPARQL.Types.SchemaTypeElement"/>.</param>
+            <returns><c>true</c> if the <see cref="T:UIBK.GraphSPARQL.Types.Schema"/> contains the specified <see cref="T:UIBK.GraphSPARQL.Types.SchemaTypeElement"/>, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.Schema.TryGetElement``1(System.String,``0@)">
+            <summary>
+            Tries to find a <see cref="T:UIBK.GraphSPARQL.Types.SchemaElement"/> of type <typeparamref name="T"/> with a given name.
+            </summary>
+            <typeparam name="T">The desired <see cref="T:UIBK.GraphSPARQL.Types.SchemaTypeElement"/> type.</typeparam>
+            <param name="name">The name of the <see cref="T:UIBK.GraphSPARQL.Types.SchemaTypeElement"/> to retrieve.</param>
+            <param name="element">The matching <see cref="T:UIBK.GraphSPARQL.Types.SchemaTypeElement"/>.</param>
+            <returns><c>true</c> if the <see cref="T:UIBK.GraphSPARQL.Types.Schema"/> contains the specified <see cref="T:UIBK.GraphSPARQL.Types.SchemaTypeElement"/>, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Schema.Query">
+            <summary>
+            Gets the <see cref="T:UIBK.GraphSPARQL.Types.SchemaQuery"/> for this <see cref="T:UIBK.GraphSPARQL.Types.Schema"/>.
+            </summary>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Schema.Mutation">
+            <summary>
+            Gets the <see cref="T:UIBK.GraphSPARQL.Types.SchemaMutation"/> for this <see cref="T:UIBK.GraphSPARQL.Types.Schema"/>.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.Schema.CreateEnum(System.String,UIBK.GraphSPARQL.Iri)">
+            <summary>
+            Creates and adds a new <see cref="T:UIBK.GraphSPARQL.Types.SchemaEnum"/> to the <see cref="T:UIBK.GraphSPARQL.Types.Schema"/>.
+            </summary>
+            <param name="name">The name of the <see cref="T:UIBK.GraphSPARQL.Types.SchemaEnum"/>.</param>
+            <param name="dataTypeIri">The <see cref="T:UIBK.GraphSPARQL.Iri"/> of the underlying data type.</param>
+            <returns>A new <see cref="T:UIBK.GraphSPARQL.Types.SchemaEnum"/> instance.</returns>
+            <exception cref="T:System.ArgumentException">If another <see cref="T:UIBK.GraphSPARQL.Types.SchemaType"/>, <see cref="T:UIBK.GraphSPARQL.Types.SchemaInterface"/>, <see cref="T:UIBK.GraphSPARQL.Types.SchemaUnion"/>, <see cref="T:UIBK.GraphSPARQL.Types.SchemaCustomScalar"/> or <see cref="T:UIBK.GraphSPARQL.Types.SchemaEnum"/> with the given <paramref name="name"/> already exists or <paramref name="name"/> contains invalid characters.</exception>
+            <remarks>Use <see cref="P:UIBK.GraphSPARQL.Types.SchemaScalar.IriDataTypeIri"/> for <paramref name="dataTypeIri"/> in case the enum values represent IRIs or <see cref="P:UIBK.GraphSPARQL.Types.SchemaScalar.PlainLiteralDataTypeIri"/> to not use data types at all.</remarks>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Schema.Enums">
+            <summary>
+            Enumerates all <see cref="T:UIBK.GraphSPARQL.Types.SchemaEnum"/>s within the <see cref="T:UIBK.GraphSPARQL.Types.Schema"/>.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.Schema.CreateInterface(System.String)">
+            <summary>
+            Creates and adds a new <see cref="T:UIBK.GraphSPARQL.Types.SchemaInterface"/> to the <see cref="T:UIBK.GraphSPARQL.Types.Schema"/>.
+            </summary>
+            <param name="name">The name of the <see cref="T:UIBK.GraphSPARQL.Types.SchemaInterface"/>.</param>
+            <returns>A new <see cref="T:UIBK.GraphSPARQL.Types.SchemaInterface"/> instance.</returns>
+            <exception cref="T:System.ArgumentException">If another <see cref="T:UIBK.GraphSPARQL.Types.SchemaType"/>, <see cref="T:UIBK.GraphSPARQL.Types.SchemaInterface"/>, <see cref="T:UIBK.GraphSPARQL.Types.SchemaUnion"/>, <see cref="T:UIBK.GraphSPARQL.Types.SchemaCustomScalar"/> or <see cref="T:UIBK.GraphSPARQL.Types.SchemaEnum"/> with the given <paramref name="name"/> already exists or <paramref name="name"/> contains invalid characters.</exception>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Schema.Interfaces">
+            <summary>
+            Enumerates all <see cref="T:UIBK.GraphSPARQL.Types.SchemaInterface"/>s within the <see cref="T:UIBK.GraphSPARQL.Types.Schema"/>.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.Schema.CreateScalar(System.String)">
+            <summary>
+            Creates and adds a new <see cref="T:UIBK.GraphSPARQL.Types.SchemaCustomScalar"/> to the <see cref="T:UIBK.GraphSPARQL.Types.Schema"/>.
+            </summary>
+            <param name="name">The name of the <see cref="T:UIBK.GraphSPARQL.Types.SchemaCustomScalar"/>.</param>
+            <returns>A new <see cref="T:UIBK.GraphSPARQL.Types.SchemaScalar"/> instance.</returns>
+            <exception cref="T:System.ArgumentException">If another <see cref="T:UIBK.GraphSPARQL.Types.SchemaType"/>, <see cref="T:UIBK.GraphSPARQL.Types.SchemaInterface"/>, <see cref="T:UIBK.GraphSPARQL.Types.SchemaUnion"/>, <see cref="T:UIBK.GraphSPARQL.Types.SchemaCustomScalar"/> or <see cref="T:UIBK.GraphSPARQL.Types.SchemaEnum"/> with the given <paramref name="name"/> already exists or <paramref name="name"/> contains invalid characters.</exception>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Schema.Scalars">
+            <summary>
+            Enumerates all <see cref="T:UIBK.GraphSPARQL.Types.SchemaCustomScalar"/>s within the <see cref="T:UIBK.GraphSPARQL.Types.Schema"/>.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.Schema.CreateType(System.String,UIBK.GraphSPARQL.Iri)">
+            <summary>
+            Creates and adds a new <see cref="T:UIBK.GraphSPARQL.Types.SchemaType"/> to the <see cref="T:UIBK.GraphSPARQL.Types.Schema"/>.
+            </summary>
+            <param name="name">The name of the <see cref="T:UIBK.GraphSPARQL.Types.SchemaType"/>.</param>
+            <param name="classIri">The underlying class's IRI.</param>
+            <returns>A new <see cref="T:UIBK.GraphSPARQL.Types.SchemaType"/> instance.</returns>
+            <exception cref="T:System.ArgumentException">If another <see cref="T:UIBK.GraphSPARQL.Types.SchemaType"/>, <see cref="T:UIBK.GraphSPARQL.Types.SchemaInterface"/>, <see cref="T:UIBK.GraphSPARQL.Types.SchemaUnion"/>, <see cref="T:UIBK.GraphSPARQL.Types.SchemaCustomScalar"/> or <see cref="T:UIBK.GraphSPARQL.Types.SchemaEnum"/> with the given <paramref name="name"/> already exists or <paramref name="name"/> contains invalid characters.</exception>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Schema.Types">
+            <summary>
+            Enumerates all <see cref="T:UIBK.GraphSPARQL.Types.SchemaType"/>s within the <see cref="T:UIBK.GraphSPARQL.Types.Schema"/>.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.Schema.CreateUnion(System.String)">
+            <summary>
+            Creates and adds a new <see cref="T:UIBK.GraphSPARQL.Types.SchemaUnion"/> to the <see cref="T:UIBK.GraphSPARQL.Types.Schema"/>.
+            </summary>
+            <param name="name">The name of the <see cref="T:UIBK.GraphSPARQL.Types.SchemaUnion"/>.</param>
+            <returns>A new <see cref="T:UIBK.GraphSPARQL.Types.SchemaUnion"/> instance.</returns>
+            <exception cref="T:System.ArgumentException">If another <see cref="T:UIBK.GraphSPARQL.Types.SchemaType"/>, <see cref="T:UIBK.GraphSPARQL.Types.SchemaInterface"/>, <see cref="T:UIBK.GraphSPARQL.Types.SchemaUnion"/>, <see cref="T:UIBK.GraphSPARQL.Types.SchemaCustomScalar"/> or <see cref="T:UIBK.GraphSPARQL.Types.SchemaEnum"/> with the given <paramref name="name"/> already exists or <paramref name="name"/> contains invalid characters.</exception>
+        </member>
+        <member name="P:UIBK.GraphSPARQL.Types.Schema.Unions">
+            <summary>
+            Enumerates all <see cref="T:UIBK.GraphSPARQL.Types.SchemaUnion"/> within the <see cref="T:UIBK.GraphSPARQL.Types.Schema"/>.
+            </summary>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.Schema.ToJson(System.IO.TextWriter)">
+            <summary>
+            Serializes the <see cref="T:UIBK.GraphSPARQL.Types.Schema"/> and writes the JSON structure using the specified <see cref="T:System.IO.TextWriter"/>.
+            </summary>
+            <param name="writer">The <see cref="T:System.IO.TextWriter"/> used to write the JSON structure.</param>
+        </member>
+        <member name="M:UIBK.GraphSPARQL.Types.Schema.ToJson(Newtonsoft.Json.JsonWriter)">
+            <summary>
+            Serializes the <see cref="T:UIBK.GraphSPARQL.Types.Schema"/> and writes the JSON structure using the specified <see cref="T:Newtonsoft.Json.JsonWriter"/>.
+            </summary>
+            <param name="jsonWriter">The <see cref="T:Newtonsoft.Json.JsonWriter"/> used to write the JSON structure.</param>
+        </member>
+    </members>
+</doc>

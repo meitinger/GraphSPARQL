@@ -43,7 +43,9 @@ namespace UIBK.GraphSPARQL.Types
 
         internal SchemaContainer(Schema schema, string name) : base(schema, name) { }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Adds all fields from JSON.
+        /// </summary>
         protected override void JsonInitialize()
         {
             _jsonFields.EmptyIfNull().ForEach(field => AddField(field, field.JsonError, NamespaceUri, DataSource, _graphUri));
@@ -374,7 +376,9 @@ namespace UIBK.GraphSPARQL.Types
             InitializeClass();
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Generates the IRI if necessary and initializes the class.
+        /// </summary>
         protected override void JsonInitialize()
         {
             if (_classIri is null) _classIri = new Iri(NamespaceUri ?? (DataSource ?? Schema.DataSources.Default)?.DefaultNamespaceUri ?? throw JsonError("No default namespace, either the type's class or namespace must be given."), Name);

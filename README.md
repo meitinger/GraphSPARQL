@@ -71,7 +71,7 @@ Settings for the harvester are per namespace and documented in the
 features using the internal _GraphSPARQL_ format. To use it, you have to load
 the configuration file `.\example\config-sample1.json` in `.\src\Startup.cs`.
 
-More configuration examples are soon to come.
+The API documentation is available in the [doc](./doc/index.md) folder.
 
 Usage
 -----

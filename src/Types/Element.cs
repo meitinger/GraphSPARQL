@@ -135,7 +135,9 @@ namespace UIBK.GraphSPARQL.Types
             QueryType.Name = name;
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Initializes <see cref="QueryType"/> from JSON.
+        /// </summary>
         protected override void JsonInitialize()
         {
             QueryType.Name = Name;
