@@ -177,7 +177,7 @@ namespace UIBK.GraphSPARQL.Types.Providers
                     HarvestFields(_schema.Mutation, def, def.Fields);
                     return null;
                 default:
-                    var type = isExtension ? _schema.GetElement<SchemaType>(Name(def), _error) : new SchemaType(_schema, Name(def), SingleOrDefault<GraphQL.Class>(def)?.Iri ?? new Iri(new Iri(SingleOrDefault<GraphQL.Context>(def)?.Namespace ?? throw _error($"Either @class.iri or @context.namespace must be set on {FormatNode(def)}.")), Name(def)));
+                    var type = isExtension ? _schema.GetElement<SchemaType>(Name(def), _error) : new SchemaType(_schema, Name(def), SingleOrDefault<GraphQL.Class>(def)?.Iri ?? new Iri(new Iri(SingleOrDefault<GraphQL.Context>(def)?.Namespace ?? (SingleOrDefault<GraphQL.Context>(def)?.DataSource ?? _schema.DataSources.Default)?.DefaultNamespaceUri ?? throw _error($"Either @class.iri or @context.namespace must be set on {FormatNode(def)}.")), Name(def)));
                     HarvestFields(type, def, def.Fields);
                     def.Interfaces.EmptyIfNull().ForEach(iface => type.AddInterface(Name(iface), _error));
                     return type;
