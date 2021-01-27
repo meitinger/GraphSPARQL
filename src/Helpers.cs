@@ -201,9 +201,17 @@ namespace UIBK.GraphSPARQL
 
         public static IGraphPatternBuilder OptionalWhere(this IGraphPatternBuilder builder, Action<ITriplePatternBuilder> buildTriplePatterns) => builder.Optional(opt => opt.Where(buildTriplePatterns));
 
-        public static bool HasArgument(this IResolveFieldContext context, QueryArgument arg) => context.HasArgument(arg.Name);
+        public static IEnumerable<T> EnumerateArgument<T>(this IResolveFieldContext context, QueryArgument arg) =>
+            context.HasArgument(arg.Name)
+                ? context.GetArgument<IEnumerable<T>?>(arg.Name).EmptyIfNull()
+                : Enumerable.Empty<T>();
 
-        public static T GetArgument<T>(this IResolveFieldContext context, QueryArgument arg, T defaultValue = default) => context.GetArgument(arg.Name, defaultValue)!;
+        public static void HandleArgument<T>(this IResolveFieldContext context, QueryArgument arg, Action<T> action)
+        {
+            if (!context.HasArgument(arg.Name)) return;
+            var value = context.GetArgument<T?>(arg.Name);
+            if (value is not null) action(value);
+        }
 
         public static T RequireProperty<T>(this T? value, [CallerMemberName] string? propertyName = null) where T : class => value ?? throw new InvalidOperationException($"Property '{propertyName}' not set.");
 

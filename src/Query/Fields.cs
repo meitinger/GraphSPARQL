@@ -133,7 +133,7 @@ namespace UIBK.GraphSPARQL.Query
 
         private VDS.RDF.INode CreateNode(object obj) => Field.MutationScalar.ToSparql(obj, NodeFactory) ?? throw new ExecutionError($"Failed to convert value '{obj}' of type {obj.GetType().Name} to {Field.MutationScalar}.");
 
-        private ISet<VDS.RDF.INode> NodesFromArgument(IResolveFieldContext request, string name) => request.GetArgument(name, Enumerable.Empty<object>()).Select(CreateNode).ToHashSet();
+        private ISet<VDS.RDF.INode> NodesFromArgument(IResolveFieldContext request, string name) => request.GetArgument<IEnumerable<string>?>(name).EmptyIfNull().Select(CreateNode).ToHashSet();
 
         object IFieldResolver.Resolve(IResolveFieldContext context) => Field.IsArray ? ResolveMultiple(context.As<Instance?>()) : ResolveSingle(context.As<Instance?>());
 
@@ -152,15 +152,15 @@ namespace UIBK.GraphSPARQL.Query
             if (CanFilter)
             {
                 if (Field.FilterExpression is not null) And(Field.FilterExpression);
-                if (request.HasArgument(FilterArgument)) And(Filter.Parse(request.GetArgument<string>(FilterArgument), s => new ExecutionError(s)));
+                request.HandleArgument<string>(FilterArgument, filter => And(Filter.Parse(filter, s => new ExecutionError(s))));
             }
             if (CanId)
             {
-                if (request.HasArgument(IdArgument)) And(new EqualsExpression(IdTerm, new Iri(request.GetArgument<string>(IdArgument)).Term));
+                request.HandleArgument<string>(IdArgument, id => And(new EqualsExpression(IdTerm, new Iri(id).Term)));
                 if (Field.IsArray)
                 {
                     request
-                        .GetArgument(IdsArgument, Enumerable.Empty<string>())
+                        .EnumerateArgument<string>(IdsArgument)
                         .Select(id => new EqualsExpression(IdTerm, new Iri(id).Term))
                         .ForEach(And);
                 }
@@ -169,7 +169,7 @@ namespace UIBK.GraphSPARQL.Query
             {
                 if (Field.IsRequired) And(new BoundFunction(new VariableTerm(Field.Name)));
                 request
-                    .GetArgument(RequireArgument, Enumerable.Empty<string>())
+                    .EnumerateArgument<string>(RequireArgument)
                     .Select(field => new BoundFunction(new VariableTerm(field)))
                     .ForEach(And);
             }
@@ -182,8 +182,8 @@ namespace UIBK.GraphSPARQL.Query
                 if (CanUpdate) values = Update(request, values);
                 if (CanLimit && Field.IsArray)
                 {
-                    if (request.HasArgument(OffsetArgument)) values = values.Skip(request.GetArgument<int>(OffsetArgument));
-                    if (request.HasArgument(LimitArgument)) values = values.Take(request.GetArgument<int>(LimitArgument));
+                    request.HandleArgument<int>(OffsetArgument, offset => values = values.Skip(offset));
+                    request.HandleArgument<int>(LimitArgument, limit => values = values.Take(limit));
                 }
                 return
                     !Field.IsRequired || values.Any()
@@ -249,7 +249,7 @@ namespace UIBK.GraphSPARQL.Query
                             case 1: Context.DeleteData(subject, Predicate, results.Single().Object); break;
                             default: throw new ExecutionError($"More than a single entry currently exist for {Field}.");
                         }
-                        var value = request.GetArgument(Set, (object?)null);
+                        var value = request.GetArgument<object?>(Set);
                         if (value is not null)
                         {
                             var @object = CreateNode(value);
@@ -399,7 +399,7 @@ namespace UIBK.GraphSPARQL.Query
 
         private Instance Resolve(IResolveFieldContext context)
         {
-            var iri = new Iri(context.GetArgument<string>(IdArgument));
+            var iri = new Iri(context.GetArgument<string>(IdArgument.Name));
             Context.InsertData(iri, Predicate, SchemaType.ClassIri.Node);
             var template = context.GetArgument<IDictionary<string, object>>(TemplateArgumentName);
             foreach (var field in SchemaType.MutationType.Fields.OfType<MutationField>())
