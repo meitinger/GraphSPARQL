@@ -620,7 +620,7 @@ namespace UIBK.GraphSPARQL.Types
                     Year = value.Year;
                     Month = value.Month;
                     Day = value.Day;
-                    Hour = value.Year;
+                    Hour = value.Hour;
                     Minute = value.Minute;
                     Second = value.Second;
                     Millisecond = value.Millisecond;
@@ -684,7 +684,7 @@ namespace UIBK.GraphSPARQL.Types
                 get => new DateTimeOffset(1, 1, 1, Hour, Minute, Second, Millisecond, TimeSpan.Zero);
                 set
                 {
-                    Hour = value.Year;
+                    Hour = value.Hour;
                     Minute = value.Minute;
                     Second = value.Second;
                     Millisecond = value.Millisecond;
