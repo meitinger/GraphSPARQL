@@ -1,0 +1,18 @@
+{
+    "name": "hgql-example-with-sparql",
+    "schema": "/home/student/HyperGraphQL/schema.graphql",
+    "server": {
+        "port": 8080,
+        "graphql": "/graphql",
+        "graphiql": "/graphiql"
+    },
+    "services": [
+        {
+            "id": "benchmarking",
+            "type": "SPARQLEndpointService",
+            "url": "http://localhost:80/repositories/SemanticWebSeminarGraphQL",
+            "user": "student",
+            "password": "Aa8Z8bg6vHLTY"
+        }
+    ]
+}

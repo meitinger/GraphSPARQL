@@ -1,0 +1,35 @@
+type Query {
+     schema_Place: [Place]
+     schema_Person: [Person]
+     schema_LocalBusiness: [LocalBusiness] 
+}
+
+type Place {
+    dct_title: [String] @predicate(iri:"http://purl.org/dc/terms/title")
+    schema_postalCode: String @predicate(iri:"http://schema.org/postalCode")
+    schema_latitude: String @predicate(iri:"http://schema.org/latitude")
+}
+
+type Person {
+    dct_title: [String] @predicate(iri:"http://purl.org/dc/terms/title")
+    schema_description: String @predicate(iri:"http://schema.org/description")
+    schema_name: String @predicate(iri:"http://schema.org/name")
+    schema_knows: [Person] @predicate(iri:"http://schema.org/knows")
+    schema_birthDate: String @predicate(iri:"http://schema.org/birthDate")
+    schema_url: [String] @predicate(iri:"http://schema.org/url")
+    schema_sameAs: [String] @predicate(iri:"http://schema.org/sameAs")
+    schema_birthPlace: [Place] @predicate(iri:"http://schema.org/birthPlace")
+}
+
+type LocalBusiness {
+    dct_title: [String] @predicate(iri:"http://purl.org/dc/terms/title")
+    schema_name: String @predicate(iri:"http://schema.org/name")
+    schema_streetAddress: String @predicate(iri:"http://schema.org/streetAddress")
+    schema_postalCode: String @predicate(iri:"http://schema.org/postalCode")
+    schema_addressLocality: String @predicate(iri:"http://schema.org/addressLocality")
+    schema_description: String @predicate(iri:"http://schema.org/description")
+    schema_email: String @predicate(iri:"http://schema.org/email")
+    schema_telephone: String @predicate(iri:"http://schema.org/telephone")
+    schema_url: [String] @predicate(iri:"http://schema.org/url")
+    dct_relation: [String] @predicate(iri:"http://purl.org/dc/terms/relation")
+}

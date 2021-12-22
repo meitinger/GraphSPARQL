@@ -1,0 +1,51 @@
+type __Context {
+    schema_Place:           _@href(iri: "http://schema.org/Place")
+    schema_Person:          _@href(iri: "http://schema.org/Person")
+    schema_LocalBusiness:   _@href(iri: "http://schema.org/LocalBusiness")
+    dct_title:              _@href(iri: "http://purl.org/dc/terms/title")
+    schema_postalCode:      _@href(iri: "http://schema.org/postalCode")
+    schema_latitude:        _@href(iri: "http://schema.org/latitude")
+    schema_location:        _@href(iri: "http://schema.org/location")
+    schema_description:     _@href(iri: "http://schema.org/description")
+    schema_name:            _@href(iri: "http://schema.org/name")
+    schema_knows:           _@href(iri: "http://schema.org/knows")
+    schema_birthDate:       _@href(iri: "http://schema.org/birthDate")
+    schema_url:             _@href(iri: "http://schema.org/url")
+    schema_sameAs:          _@href(iri: "http://schema.org/sameAs")
+    schema_birthPlace:      _@href(iri: "http://schema.org/birthPlace")
+    schema_streetAddress:   _@href(iri: "http://schema.org/streetAddress")
+    schema_addressLocality: _@href(iri: "http://schema.org/addressLocality")
+    schema_email:           _@href(iri: "http://schema.org/email")
+    schema_telephone:       _@href(iri: "http://schema.org/telephone")
+    dct_relation:           _@href(iri: "http://purl.org/dc/terms/relation")
+}
+
+type schema_Place @service(id:"benchmarking") {
+    dct_title: [String] @service(id:"benchmarking")
+    schema_postalCode: String @service(id:"benchmarking")
+    schema_latitude: String @service(id:"benchmarking")
+}
+
+type schema_Person @service(id:"benchmarking") {
+    dct_title: [String] @service(id:"benchmarking")
+    schema_description: String @service(id:"benchmarking")
+    schema_name: String @service(id:"benchmarking")   
+    schema_knows: [schema_Person] @service(id:"benchmarking")
+    schema_birthDate: String @service(id:"benchmarking")
+    schema_url: [String] @service(id:"benchmarking")
+    schema_sameAs: [String] @service(id:"benchmarking")
+    schema_birthPlace: [schema_Place] @service(id:"benchmarking")
+}
+
+type schema_LocalBusiness @service(id:"benchmarking") {
+    dct_title: [String] @service(id:"benchmarking")
+    schema_name: String @service(id:"benchmarking")
+    schema_streetAddress: String @service(id:"benchmarking")
+    schema_postalCode: String @service(id:"benchmarking")
+    schema_addressLocality: String @service(id:"benchmarking")
+    schema_description: String @service(id:"benchmarking")
+    schema_email: String @service(id:"benchmarking")
+    schema_telephone: String @service(id:"benchmarking")
+    schema_url: [String] @service(id:"benchmarking")
+    dct_relation: [String] @service(id:"benchmarking")
+}

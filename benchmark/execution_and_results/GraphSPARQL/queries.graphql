@@ -1,0 +1,3 @@
+{schema_Person{dct_title,schema_description,schema_name,schema_birthDate,schema_url,schema_sameAs}}
+{schema_Place{dct_title,schema_postalCode,schema_latitude}}
+{schema_LocalBusiness{dct_title,schema_streetAddress,schema_postalCode,schema_addressLocality,schema_description,schema_email,schema_url,schema_telephone}}
