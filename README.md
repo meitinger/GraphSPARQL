@@ -104,5 +104,5 @@ Linked Data" at ["The 37th ACM/SIGAPP Symposium On Applied Computing"
 GraphSPARQL was evaluated against the existing open-source solution
 HyperGraphQL and Stardog.
 
-In the corresponding `benchmark` folder the benchmarking script and the used
-queries are stored. For further details consider the paper.
+The benchmarking script and the used queries are available in the `benchmark`
+folder. For further details consider the paper.
