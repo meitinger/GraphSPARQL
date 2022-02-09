@@ -1,0 +1,28 @@
+{
+  "DataSources": [
+    {
+      "Name": "Test",
+      "Provider": "remote",
+      "DefaultNamespace": "http://schema.org/",
+      "Prefixes": {
+        "schema": "http://schema.org/",
+        "dct": "http://purl.org/dc/terms/"
+      },
+      "Settings": {
+        "EndpointUri": "http://localhost:80/repositories/SemanticWebSeminarGraphQL",
+        "Credentials": {
+          "UserName": "student",
+          "Password": "Aa8Z8bg6vHLTY"
+        }
+      }
+    }
+  ],
+  "Definitions": [
+    {
+      "Provider": "graphql",
+      "Settings": {
+        "Location": "schema-test.graphql"
+      }
+    }
+  ]
+}

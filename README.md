@@ -95,3 +95,14 @@ The following three prefixes are available in filters:
 - [`xsd`](http://www.w3.org/2001/XMLSchema)
 - [`rdf`](http://www.w3.org/1999/02/22-rdf-syntax-ns#)
 - [`rdfs`](http://www.w3.org/2000/01/rdf-schema#)
+
+Benchmark
+---------
+This implementation is published as "GraphSPARQL: A GraphQL Interface for
+Linked Data" at ["The 37th ACM/SIGAPP Symposium On Applied Computing"
+(SAC 2022)](https://www.sigapp.org/sac/sac2022/index.html).
+GraphSPARQL was evaluated against the existing open-source solution
+HyperGraphQL and Stardog.
+
+The benchmarking script and the used queries are available in the `benchmark`
+folder. For further details consider the paper.
